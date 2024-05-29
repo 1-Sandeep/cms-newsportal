@@ -1,0 +1,10 @@
+/* Style the TinyMCE instance when it has validation error */
+.is-invalid + .tox-tinymce {
+    border-color: #dc3545; /* Set border color */
+    border-width: 1px; /* Set border width to match Laravel's default */
+}
+
+/* Style the error message */
+.invalid-feedback {
+    color: #dc3545; /* Set error message color */
+}

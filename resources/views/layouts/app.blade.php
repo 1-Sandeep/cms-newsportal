@@ -19,20 +19,25 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('backend/dist/css/adminlte.min.css') }}">
+    <!-- Bootstrap Toggle -->
+    <link rel="stylesheet" href="{{ asset('backend/dist/css/bootstrap-toggle.min.css') }}">
+    <!-- Sweet Alert-->
+    <link rel="stylesheet" href="{{ asset('backend/plugins/sweetalert2/sweetalert2.min.css') }}">
 
     <!-- Styles -->
     {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-        {{-- @guest
+        @guest
             <!-- Preloader -->
             <div class="preloader flex-column justify-content-center align-items-center">
                 <img class="animation__shake" src="{{ asset('backend/dist/img/AdminLTELogo.png') }}" alt="AdminLTELogo"
                     height="60" width="60">
             </div>
-        @endguest --}}
+        @endguest
 
         @auth
             @include('layouts.navigation')
@@ -41,7 +46,14 @@
 
         @yield('content')
 
+        @auth
+            @include('layouts.footer')
+        @endauth
+
     </div>
+
+
+
     <!-- jQuery -->
     <script src="{{ asset('backend/plugins/jquery/jquery.min.js') }}"></script>
     <!-- jQuery UI 1.11.4 -->
@@ -56,8 +68,47 @@
     <script src="{{ asset('backend/plugins/sparklines/sparkline.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('backend/dist/js/adminlte.js') }}"></script>
+    <!-- Bootstrap Toggle -->
+    <script src="{{ asset('backend/dist/js/bootstrap-toggle.min.js') }}"></script>
+    <!-- SweetAlert -->
+    <script src="{{ asset('backend/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+
+    <!-- Tiny MCE -->
+    <script src="https://cdn.tiny.cloud/1/2j5hx44mnplsxletoqoajrmiit0gyisjx212tnwkdi0f0zdv/tinymce/7/tinymce.min.js"
+        referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea.tinyMCE', // Replace this CSS selector to match the placeholder element for TinyMCE
+            plugins: 'code table lists',
+            toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table'
+        });
+    </script>
     <!-- Scripts -->
     {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
+
+    @if (session('success'))
+        <script>
+            $(document).ready(function() {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: '{{ session('success') }}'
+                });
+            });
+        </script>
+    @endif
+    @if (session('error'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: '{{ session('error') }}'
+            });
+        </script>
+    @endif
+
+
+    @yield('script')
 </body>
 
 </html>

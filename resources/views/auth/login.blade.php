@@ -29,8 +29,8 @@
                             @enderror
                         </div>
                         <div class="input-group mb-3">
-                            <input type="password" class="form-control @error('email') is-invalid @enderror" name="password"
-                                placeholder="Password">
+                            <input type="password" class="form-control @error('password') is-invalid @enderror"
+                                name="password" placeholder="Password">
                             <div class="input-group-append">
                                 <div class="input-group-text">
                                     <span class="fas fa-lock"></span>

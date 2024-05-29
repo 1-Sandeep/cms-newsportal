@@ -13,3 +13,9 @@ npm-debug.log
 yarn-error.log
 /.idea
 /.vscode
+# ignore the content of authors, posts and users directory
+/public/uploads/authors/*
+/public/uploads/posts/*
+/public/uploads/users/*
+# include the content of default directory
+!/public/uploads/users/default/
