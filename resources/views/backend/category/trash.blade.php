@@ -7,12 +7,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Author - Trash</h1>
+                        <h1 class="m-0">Category - Trash</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('backend.author.index') }}" class="text-danger font-weight-bold">Go
+                                <a href="{{ route('backend.category.index') }}" class="text-danger font-weight-bold">Go
                                     Back</a>
                             </li>
                         </ol>
@@ -32,46 +32,44 @@
                                 <table class="table table-hover text-nowrap">
                                     <thead>
                                         <tr>
-                                            <th style="text-align: center;">Image</th>
-                                            <th>Name</th>
-                                            <th>Description</th>
-                                            <th style="text-align: center;">Actions</th>
+                                            <th>Title</th>
+                                            <th>Slug</th>
+                                            <th style=" width: 10%; text-align: center;">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($authors as $author)
+                                        @foreach ($categories as $category)
                                             <tr>
-                                                {{-- <td>{{ $author->id }}</td> --}}
-                                                <td style="text-align: center;"><img src="{{ $author->image }}"
-                                                        alt=""
-                                                        style="max-width: 50px; max-height:50px; border-radius:5px">
-                                                </td>
-                                                <td>{{ $author->name }}</td>
-                                                <td>{!! Str::limit(strip_tags($author->description), 110, '...') !!}</span></td>
+                                                <td>{{ $category->title }}</td>
+                                                <td>{!! Str::limit(strip_tags($category->slug), 50, '...') !!}</span></td>
                                                 <td style="text-align: center; display: flex; justify-content: space-evenly;"
                                                     class="gap-2">
 
                                                     {!! Form::open([
-                                                        'route' => ['backend.author.restore', $author->id],
+                                                        'route' => ['backend.category.restore', $category->id],
                                                         'method' => 'PUT',
                                                     ]) !!}
                                                     {!! Form::button('Restore', [
                                                         'type' => 'submit',
-                                                        'class' => 'btn btn-warning restoreauthor',
-                                                        'title' => 'Restore author',
-                                                        'data-id' => $author->id,
+                                                        'class' => 'btn btn-warning restorecategory',
+                                                        'title' => 'Restore category',
+                                                        'data-id' => $category->id,
                                                     ]) !!}
                                                     {!! Form::close() !!}
 
+                                                    {{-- <a href="{{ route('backend.category.restore', $category->id) }}"
+                                                        class="btn btn-warning" title="Restore category">
+                                                        Restore
+                                                    </a> --}}
                                                     {!! Form::open([
-                                                        'route' => ['backend.author.delete', $author->id],
+                                                        'route' => ['backend.category.delete', $category->id],
                                                         'method' => 'DELETE',
                                                     ]) !!}
                                                     {!! Form::button('<i class="fas fa-trash"></i>', [
                                                         'type' => 'submit',
-                                                        'class' => 'btn btn-danger deleteauthor',
-                                                        'title' => 'Delete author',
-                                                        'data-id' => $author->id,
+                                                        'class' => 'btn btn-danger deletecategory',
+                                                        'title' => 'Delete category',
+                                                        'data-id' => $category->id,
                                                     ]) !!}
                                                     {!! Form::close() !!}
                                                 </td>
@@ -87,7 +85,7 @@
                 </div>
                 <!-- /.row -->
                 {{-- pagination --}}
-                @include('layouts.pagination', ['data' => $authors])
+                @include('layouts.pagination', ['data' => $categories])
             </div>
             <!-- /.container-fluid -->
         </section>
@@ -98,11 +96,11 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            $('.deleteauthor').on('click', function(event) {
+            $('.deletecategory').on('click', function(event) {
                 event.preventDefault(); // Prevent the default action (form submission)
 
                 var form = $(this).closest('form'); // Find the closest form element
-                var authorId = $(this).data('id'); // Get the author ID from data attribute
+                var categoryId = $(this).data('id'); // Get the category ID from data attribute
 
                 Swal.fire({
                     title: 'Are you sure?',
@@ -111,7 +109,7 @@
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Yes, delete this author!'
+                    confirmButtonText: 'Yes, delete this category!'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // If the user confirms, submit the form
@@ -122,11 +120,11 @@
 
 
             // just want to warn user using sweetalert
-            $('.restoreauthor').on('click', function(event) {
+            $('.restorecategory').on('click', function(event) {
                 event.preventDefault(); // Prevent the default action (form submission)
 
                 var form = $(this).closest('form'); // Find the closest form element
-                var authorId = $(this).data('id'); // Get the author ID from data attribute
+                var categoryId = $(this).data('id'); // Get the category ID from data attribute
 
                 Swal.fire({
                     title: 'Are you sure?',
@@ -135,7 +133,7 @@
                     showCancelButton: true,
                     confirmButtonColor: '#2DA111',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Yes, restore author!'
+                    confirmButtonText: 'Yes, restore category!'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // If the user confirms, submit the form

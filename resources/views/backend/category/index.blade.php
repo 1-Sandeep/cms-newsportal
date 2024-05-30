@@ -7,14 +7,15 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Author - View</h1>
+                        <h1 class="m-0">Category - View</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('backend.author.create') }}" class="btn btn-success mr-2">Add Author</a>
-                                <a href="{{ route('backend.author.viewtrash') }}" class="btn btn-warning"
-                                    title="Trash authors">
+                                <a href="{{ route('backend.category.create') }}" class="btn btn-success mr-2">Add
+                                    Category</a>
+                                <a href="{{ route('backend.category.viewtrash') }}" class="btn btn-warning"
+                                    title="Trash categorys">
                                     <i class="fas fa-trash"></i></a>
                             </li>
                         </ol>
@@ -34,27 +35,23 @@
                                 <table class="table table-hover text-nowrap">
                                     <thead>
                                         <tr>
-                                            <th style="text-align: center;">Image</th>
-                                            <th>Name</th>
-                                            <th>Description</th>
-                                            <th style="width:10%; text-align: center;">Status</th>
-                                            <th style="width:10%; text-align: center;">Actions</th>
+                                            <th>Title</th>
+                                            <th>Slug</th>
+                                            <th style="wdith:10%; text-align: center;">Status</th>
+                                            <th style="width:10%; text-align: center; ">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($authors as $author)
+                                        @foreach ($categories as $category)
                                             <tr>
-                                                <td style="text-align: center;">
-                                                    <img src="{{ $author->image }}" alt=""
-                                                        style="max-width: 50px; max-height:50px; border-radius:5px">
-                                                </td>
 
-                                                <td>{{ $author->name }}</td>
 
-                                                <td>{!! Str::limit(strip_tags($author->description), 65, '...') !!}</span></td>
+                                                <td>{{ $category->title }}</td>
+
+                                                <td>{!! Str::limit(strip_tags($category->slug), 100, '...') !!}</span></td>
 
                                                 <td style="text-align: center;">
-                                                    {!! Form::checkbox('is_active', 1, $author->is_active == 1 ? true : false, [
+                                                    {!! Form::checkbox('is_active', 1, $category->is_active == 1 ? true : false, [
                                                         'id' => 'is_active',
                                                         'class' => 'form-check-input is_active' . ($errors->has('is_active') ? ' is-invalid' : ''),
                                                         'data-toggle' => 'toggle',
@@ -63,25 +60,25 @@
                                                         'data-onstyle' => 'success',
                                                         'data-offstyle' => 'danger',
                                                         'data-size' => 'mini',
-                                                        'data-id' => $author->id,
+                                                        'data-id' => $category->id,
                                                     ]) !!}
                                                 </td>
 
                                                 <td style="text-align: center; display: flex; justify-content: space-evenly;"
                                                     class="gap-2">
-                                                    <a href="{{ route('backend.author.edit', $author->id) }}"
-                                                        class="btn btn-warning" title="Edit author">
+                                                    <a href="{{ route('backend.category.edit', $category->id) }}"
+                                                        class="btn btn-warning" title="Edit category">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
                                                     {!! Form::open([
-                                                        'route' => ['backend.author.movetotrash', $author->id],
+                                                        'route' => ['backend.category.movetotrash', $category->id],
                                                         'method' => 'PUT',
                                                     ]) !!}
                                                     {!! Form::button('<i class="fas fa-trash"></i>', [
                                                         'type' => 'submit',
                                                         'class' => 'btn btn-danger movetotrash',
                                                         'title' => 'Move to trash',
-                                                        'data-id' => $author->id,
+                                                        'data-id' => $category->id,
                                                     ]) !!}
                                                     {!! Form::close() !!}
 
@@ -98,7 +95,7 @@
                 </div>
                 <!-- /.row -->
                 {{-- pagination --}}
-                @include('layouts.pagination', ['data' => $authors])
+                @include('layouts.pagination', ['data' => $categories])
             </div>
             <!-- /.container-fluid -->
         </section>
@@ -117,13 +114,12 @@
             // jQuery to update published status of post
             $('.is_active').on('change', function() {
                 let postId = $(this).attr('data-id');
-                let isPublished = $(this).prop('checked') ? 1 : 0;
-                // alert(postId + ": " + isPublished); // Fixed syntax error in alert statement
+                let isActive = $(this).prop('checked') ? 1 : 0;
                 $.ajax({
                     type: 'PUT',
-                    url: `{{ route('backend.author.updatestatus', '') }}/${postId}`,
+                    url: `{{ route('backend.category.updatestatus', '') }}/${postId}`,
                     data: {
-                        is_active: isPublished,
+                        is_active: isActive,
                     },
                     success: function(response) {
                         Swal.fire({

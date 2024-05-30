@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\AuthorController;
+use App\Http\Controllers\Backend\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +32,12 @@ Route::get('/cms/dashboard', [App\Http\Controllers\HomeController::class, 'index
 |--------------------------------------------------------------------------
 |
 */
-// Post 
+
+// Route::get('/debug-routes', function () {
+//     dd(Route::getRoutes());
+// });
+
+
 Route::middleware(['auth'])->prefix('/cms/post')->group(function () {
     Route::get('/list', [PostController::class, 'index'])->name('backend.post.index');
     Route::get('/create', [PostController::class, 'create'])->name('backend.post.create');
@@ -39,15 +45,13 @@ Route::middleware(['auth'])->prefix('/cms/post')->group(function () {
     Route::get('/edit/{id}', [PostController::class, 'edit'])->name('backend.post.edit');
     Route::put('/update/{id}', [PostController::class, 'update'])->name('backend.post.update');
     Route::delete('/delete/{id}', [PostController::class, 'destroy'])->name('backend.post.delete');
-    Route::put('/movetotrash/{id}', [PostController::class, 'movetotrash'])->name('backend.post.movetotrash');
     Route::get('/trash/list', [PostController::class, 'viewtrash'])->name('backend.post.viewtrash');
+    Route::put('/movetotrash/{id}', [PostController::class, 'movetotrash'])->name('backend.post.movetotrash');
     Route::put('/restore/{id}', [PostController::class, 'restore'])->name('backend.post.restore');
     Route::put('/updatestatus/{id}', [PostController::class, 'updatestatus'])->name('backend.post.updatestatus')->middleware('auth');
 });
 
 
-
-// Author
 Route::middleware(['auth'])->prefix('/cms/author')->group(function () {
     Route::get('/list', [AuthorController::class, 'index'])->name('backend.author.index');
     Route::get('/create', [AuthorController::class, 'create'])->name('backend.author.create');
@@ -55,8 +59,22 @@ Route::middleware(['auth'])->prefix('/cms/author')->group(function () {
     Route::get('/edit/{id}', [AuthorController::class, 'edit'])->name('backend.author.edit');
     Route::put('/update/{id}', [AuthorController::class, 'update'])->name('backend.author.update');
     Route::delete('/delete/{id}', [AuthorController::class, 'destroy'])->name('backend.author.delete');
-    Route::put('/movetotrash/{id}', [AuthorController::class, 'movetotrash'])->name('backend.author.movetotrash');
     Route::get('/trash/list', [AuthorController::class, 'viewtrash'])->name('backend.author.viewtrash');
+    Route::put('/movetotrash/{id}', [AuthorController::class, 'movetotrash'])->name('backend.author.movetotrash');
     Route::put('/restore/{id}', [AuthorController::class, 'restore'])->name('backend.author.restore');
-    Route::put('/updatestatus/{id}', [AuthorController::class, 'updatestatus'])->name('backend.author.updatestatus')->middleware('auth');
+    Route::put('/updatestatus/{id}', [AuthorController::class, 'updatestatus'])->name('backend.author.updatestatus');
+});
+
+
+Route::middleware(['auth'])->prefix('/cms/category')->group(function () {
+    Route::get('/list', [CategoryController::class, 'index'])->name('backend.category.index');
+    Route::get('/create', [CategoryController::class, 'create'])->name('backend.category.create');
+    Route::post('/store', [CategoryController::class, 'store'])->name('backend.category.store');
+    Route::get('/edit/{id}', [CategoryController::class, 'edit'])->name('backend.category.edit');
+    Route::put('/update/{id}', [CategoryController::class, 'update'])->name('backend.category.update');
+    Route::delete('/delete/{id}', [CategoryController::class, 'destroy'])->name('backend.category.delete');
+    Route::get('/trash/list', [CategoryController::class, 'viewtrash'])->name('backend.category.viewtrash');
+    Route::put('/movetotrash/{id}', [CategoryController::class, 'movetotrash'])->name('backend.category.movetotrash');
+    Route::put('/restore/{id}', [CategoryController::class, 'restore'])->name('backend.category.restore');
+    Route::put('/updatestatus/{id}', [CategoryController::class, 'updatestatus'])->name('backend.category.updatestatus');
 });

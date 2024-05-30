@@ -3,9 +3,9 @@
     $is_create = $third_segment === 'create';
     $is_edit = $third_segment === 'edit';
 
-    $title_value = old('name') ?? ($is_edit ? $author->name : '');
-    $description_value = old('description') ?? ($is_edit ? $author->description : '');
-    $is_active = old('is_actuve') ?? ($is_edit ? $author->is_active : true);
+    $title_value = old('title') ?? ($is_edit ? $category->title : '');
+    $slug_value = old('slug') ?? ($is_edit ? $category->slug : '');
+    $is_active = old('is_actuve') ?? ($is_edit ? $category->is_active : true);
 
 @endphp
 @extends('layouts.app')
@@ -19,16 +19,16 @@
                     <div class="col-sm-6">
                         <h1 class="m-0">
                             @if ($is_create)
-                                Author - Create
+                                Category - Create
                             @elseif ($is_edit)
-                                Author - Edit
+                                Category - Edit
                             @endif
                         </h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('backend.author.index') }}" class="text-danger font-weight-bold">Go
+                                <a href="{{ route('backend.category.index') }}" class="text-danger font-weight-bold">Go
                                     Back</a>
                             </li>
                         </ol>
@@ -50,19 +50,19 @@
                             <!-- form start -->
                             <div class="card-body">
                                 {!! Form::open([
-                                    'route' => $is_edit ? ['backend.author.update', $author->id] : ['backend.author.store'],
+                                    'route' => $is_edit ? ['backend.category.update', $category->id] : ['backend.category.store'],
                                     'method' => $is_edit ? 'PUT' : 'POST',
                                     'enctype' => 'multipart/form-data',
                                     'files' => true,
                                 ]) !!}
 
                                 <div class="form-group">
-                                    {!! Form::label('name', 'Name') !!}<span class="text-danger">*</span>
-                                    {!! Form::text('name', $title_value, [
-                                        'id' => 'name',
-                                        'class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''),
+                                    {!! Form::label('title', 'Title') !!}<span class="text-danger">*</span>
+                                    {!! Form::text('title', $title_value, [
+                                        'id' => 'title',
+                                        'class' => 'form-control' . ($errors->has('title') ? ' is-invalid' : ''),
                                     ]) !!}
-                                    @error('name')
+                                    @error('title')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -70,12 +70,12 @@
                                 </div>
 
                                 <div class="form-group">
-                                    {!! Form::label('description', 'Description') !!}<span class="text-danger">*</span>
-                                    {!! Form::textarea('description', $description_value, [
-                                        'id' => 'description',
-                                        'class' => 'form-control tinyMCE' . ($errors->has('description') ? ' is-invalid' : ''),
+                                    {!! Form::label('slug', 'Slug') !!}<span class="text-danger">*</span>
+                                    {!! Form::text('slug', $slug_value, [
+                                        'id' => 'slug',
+                                        'class' => 'form-control' . ($errors->has('slug') ? ' is-invalid' : ''),
                                     ]) !!}
-                                    @error('description')
+                                    @error('slug')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -83,23 +83,7 @@
                                 </div>
 
                                 <div class="form-group">
-                                    {!! Form::label('image', 'Upload Image') !!}
-                                    <span class="text-muted ml-2 text-sm">Max Size: 2MB</span>
-
-                                    {!! Form::file('image', [
-                                        'id' => 'image',
-                                        'class' => 'form-control' . ($errors->has('image') ? ' is-invalid' : ''),
-                                    ]) !!}
-
-                                    @error('image')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group">
-                                    {!! Form::label('is_active', 'Author Status') !!}
+                                    {!! Form::label('is_active', 'Category Status') !!}
                                     {!! Form::checkbox('is_active', 1, $is_active, [
                                         'id' => 'is_active',
                                         'class' => 'form-check-input' . ($errors->has('is_active') ? ' is-invalid' : ''),
@@ -119,7 +103,7 @@
 
                                 <div class="form-group ">
                                     {!! Form::submit('Submit', ['class' => ' btn btn-primary']) !!}
-                                    <a href="{{ route('backend.author.index') }}" class=" btn btn-danger">Cancel</a>
+                                    <a href="{{ route('backend.category.index') }}" class=" btn btn-danger">Cancel</a>
                                 </div>
 
                             </div>
@@ -133,6 +117,23 @@
                 <!-- /.container-fluid -->
         </section>
         <!-- /.content -->
-
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('#title').on('input', function() {
+                var title = $(this).val().toLowerCase();
+                var slug = title.replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+                $('#slug').val(slug);
+            });
+        })
+    </script>
 @endsection

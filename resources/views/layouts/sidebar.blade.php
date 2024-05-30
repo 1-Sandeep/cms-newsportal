@@ -53,7 +53,7 @@
 
                 <li class="nav-item">
                     <a href="#"
-                        class="nav-link {{ $second_segment == 'post' || $second_segment == 'author' ? 'active' : '' }}">
+                        class="nav-link {{ $second_segment == 'post' || $second_segment == 'author' || $second_segment == 'category' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-edit"></i>
                         <p>
                             Post
@@ -72,15 +72,16 @@
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="{{ route('backend.author.index') }}"
-                                class="nav-link {{ $second_segment == 'author' ? 'active' : '' }}">
+                                class="nav-link {{ request()->is('cms/author/list') ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Author</p>
                             </a>
                         </li>
                     </ul>
+
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="pages/examples/invoice.html"
+                            <a href="{{ route('backend.category.index') }}"
                                 class="nav-link {{ $second_segment == 'category' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Categories</p>

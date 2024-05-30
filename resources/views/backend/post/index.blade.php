@@ -34,21 +34,28 @@
                                     <thead>
                                         <tr>
                                             {{-- <th>ID</th> --}}
-                                            <th style="text-align: center;">Image</th>
-                                            <th style="text-align: center;">Status</th>
+                                            <th style="width:10%; text-align: center;">Image</th>
                                             <th>Title</th>
                                             <th>Summary</th>
                                             <th>Description</th>
-                                            <th style="text-align: center;">Actions</th>
+                                            <th style="width:10%; text-align: center;">Status</th>
+                                            <th style="width:10%; text-align: center;">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($posts as $post)
                                             <tr>
                                                 {{-- <td>{{ $post->id }}</td> --}}
-                                                <td style="text-align: center;"><img src="{{ $post->image }}"
-                                                        alt=""
-                                                        style="max-width: 50px; max-height:50px; border-radius:5px"></td>
+                                                <td style="text-align: center;">
+                                                    <img src="{{ $post->image }}" alt=""
+                                                        style="max-width: 50px; max-height:50px; border-radius:5px">
+                                                </td>
+
+                                                <td>{{ Str::limit($post->title, 20, '...') }}</td>
+
+                                                <td>{!! Str::limit(strip_tags($post->summary), 30, '...') !!}</td>
+
+                                                <td>{!! Str::limit(strip_tags($post->description), 65, '...') !!}</span></td>
 
                                                 <td style="text-align: center;">
                                                     {{-- {{ $post->is_published }} --}}
@@ -64,12 +71,6 @@
                                                         'data-id' => $post->id,
                                                     ]) !!}
                                                 </td>
-
-                                                <td>{{ Str::limit($post->title, 20, '...') }}</td>
-
-                                                <td>{!! Str::limit(strip_tags($post->summary), 30, '...') !!}</td>
-
-                                                <td>{!! Str::limit(strip_tags($post->description), 45, '...') !!}</span></td>
 
                                                 <td style="text-align: center; display: flex; justify-content: space-evenly;"
                                                     class="gap-2">
