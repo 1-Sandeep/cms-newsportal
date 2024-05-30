@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Backend;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Author extends Model
+class Category extends Model
 {
     use HasFactory;
 
-    public $fillable = ['name', 'description', 'is_active', 'image'];
+    protected $fillable = ['title', 'slug', 'is_active'];
 }

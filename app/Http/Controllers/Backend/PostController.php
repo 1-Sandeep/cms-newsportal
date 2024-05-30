@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Backend;
 
 use Carbon\Carbon;
-use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\PostRequest;
-use App\Models\Author;
+use App\Models\Backend\Post;
+use App\Models\Backend\Author;
+use App\Models\Backend\Category;
 
 class PostController extends Controller
 {
@@ -27,9 +28,11 @@ class PostController extends Controller
 
     public function create()
     {
-        $authors = Author::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc');
+        $authors = Author::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc')->get();
+        $categories = Category::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc')->get();
         return view('backend.post.partials.form', [
-            'authors' => $authors
+            'authors' => $authors,
+            'categories' => $categories,
         ]);
     }
 

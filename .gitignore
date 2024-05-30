@@ -18,4 +18,5 @@ yarn-error.log
 /public/uploads/posts/*
 /public/uploads/users/*
 # include the content of default directory
+!/public/uploads/posts/default/
 !/public/uploads/users/default/

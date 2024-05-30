@@ -29,6 +29,8 @@ class PostRequest extends FormRequest
             'summary' => ['nullable', 'string'],
             'image' => ['image', 'max:2048', 'mimes:png,jpg,jpeg'],
             'is_published' => ['boolean'],
+            'author' => ['required', 'array'],
+            'category' => ['required', 'array'],
         ];
     }
 
@@ -37,8 +39,10 @@ class PostRequest extends FormRequest
         return [
             'image.required' => 'Please upload an image.',
             'image.image' => 'The file must be an image.',
-            'image.max' => 'The image may not be greater than 2MB in size.',
-            'image.mimes' => 'The image must be a file of type: png, jpg, jpeg.'
+            'image.max' => 'The image must be less than 2MB in size.',
+            'image.mimes' => 'The image must be a file of type: png, jpg, jpeg.',
+            'author.required' => 'Select at least one author.',
+            'category.required' => 'Select at least one category.',
         ];
     }
 }

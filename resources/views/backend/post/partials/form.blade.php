@@ -113,12 +113,11 @@
                                     @enderror
                                 </div>
 
-                                {{-- select2 for active authors and active categories --}}
-                                {{-- <div class="form-group row">
+                                <div class="form-group row">
                                     <div class="col-md-6">
                                         {!! Form::label('author', 'Select Author') !!} <span class="text-danger">*</span>
                                         {!! Form::select('author[]', $authors->pluck('name', 'id'), null, [
-                                            'class' => 'form-control select-multiple-value select-author' . ($errors->has('author[]') ? 'is-invalid' : ''),
+                                            'class' => 'form-control select-multiple-value select-author' . ($errors->has('author') ? ' is-invalid' : ''),
                                             'multiple' => 'multiple',
                                         ]) !!}
                                         @error('author')
@@ -127,8 +126,20 @@
                                             </span>
                                         @enderror
                                     </div>
-                                </div> --}}
 
+                                    <div class="col-md-6">
+                                        {!! Form::label('category', 'Select Category') !!} <span class="text-danger">*</span>
+                                        {!! Form::select('category[]', $categories->pluck('title', 'id'), null, [
+                                            'class' => 'form-control select-multiple-value select-category' . ($errors->has('category') ? ' is-invalid' : ''),
+                                            'multiple' => 'multiple',
+                                        ]) !!}
+                                        @error('category')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+                                </div>
 
                                 <div class="form-group">
                                     {!! Form::label('is_published', 'Post Status') !!}
@@ -179,6 +190,9 @@
             );
             // doesnot close dropdown on each item select
             $('.select-author').select2({
+                closeOnSelect: false
+            });
+            $('.select-category').select2({
                 closeOnSelect: false
             });
         });
