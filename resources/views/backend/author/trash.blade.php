@@ -7,12 +7,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Post - Trash</h1>
+                        <h1 class="m-0">Author - Trash</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('backend.post.index') }}" class="text-danger font-weight-bold">Go Back</a>
+                                <a href="{{ route('backend.author.index') }}" class="text-danger font-weight-bold">Go
+                                    Back</a>
                             </li>
                         </ol>
                     </div><!-- /.col -->
@@ -31,53 +32,50 @@
                                 <table class="table table-hover text-nowrap">
                                     <thead>
                                         <tr>
-                                            {{-- <th>ID</th> --}}
                                             <th style="text-align: center;">Image</th>
-                                            <th>Title</th>
-                                            <th>Summary</th>
+                                            <th>Name</th>
                                             <th>Description</th>
                                             <th style="text-align: center;">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($posts as $post)
+                                        @foreach ($authors as $author)
                                             <tr>
-                                                {{-- <td>{{ $post->id }}</td> --}}
-                                                <td style="text-align: center;"><img src="{{ $post->image }}"
+                                                {{-- <td>{{ $author->id }}</td> --}}
+                                                <td style="text-align: center;"><img src="{{ $author->image }}"
                                                         alt=""
                                                         style="max-width: 50px; max-height:50px; border-radius:5px">
                                                 </td>
-                                                <td>{{ Str::limit($post->title, 20, '...') }}</td>
-                                                <td>{!! Str::limit(strip_tags($post->summary), 40, '...') !!}</td>
-                                                <td>{!! Str::limit(strip_tags($post->description), 55, '...') !!}</span></td>
+                                                <td>{{ $author->name }}</td>
+                                                <td>{!! Str::limit(strip_tags($author->description), 110, '...') !!}</span></td>
                                                 <td style="text-align: center; display: flex; justify-content: space-evenly;"
                                                     class="gap-2">
 
                                                     {!! Form::open([
-                                                        'route' => ['backend.post.restore', $post->id],
+                                                        'route' => ['backend.author.restore', $author->id],
                                                         'method' => 'PUT',
                                                     ]) !!}
                                                     {!! Form::button('Restore', [
                                                         'type' => 'submit',
-                                                        'class' => 'btn btn-warning restorepost',
-                                                        'title' => 'Restore post',
-                                                        'data-id' => $post->id,
+                                                        'class' => 'btn btn-warning restoreauthor',
+                                                        'title' => 'Restore author',
+                                                        'data-id' => $author->id,
                                                     ]) !!}
                                                     {!! Form::close() !!}
 
-                                                    {{-- <a href="{{ route('backend.post.restore', $post->id) }}"
-                                                        class="btn btn-warning" title="Restore post">
+                                                    {{-- <a href="{{ route('backend.author.restore', $author->id) }}"
+                                                        class="btn btn-warning" title="Restore author">
                                                         Restore
                                                     </a> --}}
                                                     {!! Form::open([
-                                                        'route' => ['backend.post.delete', $post->id],
+                                                        'route' => ['backend.author.delete', $author->id],
                                                         'method' => 'DELETE',
                                                     ]) !!}
                                                     {!! Form::button('<i class="fas fa-trash"></i>', [
                                                         'type' => 'submit',
-                                                        'class' => 'btn btn-danger deletepost',
-                                                        'title' => 'Delete post',
-                                                        'data-id' => $post->id,
+                                                        'class' => 'btn btn-danger deleteauthor',
+                                                        'title' => 'Delete author',
+                                                        'data-id' => $author->id,
                                                     ]) !!}
                                                     {!! Form::close() !!}
                                                 </td>
@@ -93,7 +91,7 @@
                 </div>
                 <!-- /.row -->
                 {{-- pagination --}}
-                @include('layouts.pagination', ['data' => $posts])
+                @include('layouts.pagination', ['data' => $authors])
             </div>
             <!-- /.container-fluid -->
         </section>
@@ -104,11 +102,11 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            $('.deletepost').on('click', function(event) {
+            $('.deleteauthor').on('click', function(event) {
                 event.preventDefault(); // Prevent the default action (form submission)
 
                 var form = $(this).closest('form'); // Find the closest form element
-                var postId = $(this).data('id'); // Get the post ID from data attribute
+                var authorId = $(this).data('id'); // Get the author ID from data attribute
 
                 Swal.fire({
                     title: 'Are you sure?',
@@ -117,7 +115,7 @@
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Yes, delete this post!'
+                    confirmButtonText: 'Yes, delete this author!'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // If the user confirms, submit the form
@@ -128,11 +126,11 @@
 
 
             // just want to warn user using sweetalert
-            $('.restorepost').on('click', function(event) {
+            $('.restoreauthor').on('click', function(event) {
                 event.preventDefault(); // Prevent the default action (form submission)
 
                 var form = $(this).closest('form'); // Find the closest form element
-                var postId = $(this).data('id'); // Get the post ID from data attribute
+                var authorId = $(this).data('id'); // Get the author ID from data attribute
 
                 Swal.fire({
                     title: 'Are you sure?',
@@ -141,7 +139,7 @@
                     showCancelButton: true,
                     confirmButtonColor: '#2DA111',
                     cancelButtonColor: '#3085d6',
-                    confirmButtonText: 'Yes, restore post!'
+                    confirmButtonText: 'Yes, restore author!'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         // If the user confirms, submit the form

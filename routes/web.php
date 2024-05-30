@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\Backend\PostController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\PostController;
+use App\Http\Controllers\Backend\AuthorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,21 @@ Route::middleware(['auth'])->prefix('/cms/post')->group(function () {
     Route::put('/movetotrash/{id}', [PostController::class, 'movetotrash'])->name('backend.post.movetotrash');
     Route::get('/trash/list', [PostController::class, 'viewtrash'])->name('backend.post.viewtrash');
     Route::put('/restore/{id}', [PostController::class, 'restore'])->name('backend.post.restore');
+    Route::put('/updatestatus/{id}', [PostController::class, 'updatestatus'])->name('backend.post.updatestatus')->middleware('auth');
 });
 
-Route::put('/updatestatus/{id}', [PostController::class, 'updatestatus'])->name('backend.post.updatestatus')->middleware('auth');
+
+
+// Author
+Route::middleware(['auth'])->prefix('/cms/author')->group(function () {
+    Route::get('/list', [AuthorController::class, 'index'])->name('backend.author.index');
+    Route::get('/create', [AuthorController::class, 'create'])->name('backend.author.create');
+    Route::post('/store', [AuthorController::class, 'store'])->name('backend.author.store');
+    Route::get('/edit/{id}', [AuthorController::class, 'edit'])->name('backend.author.edit');
+    Route::put('/update/{id}', [AuthorController::class, 'update'])->name('backend.author.update');
+    Route::delete('/delete/{id}', [AuthorController::class, 'destroy'])->name('backend.author.delete');
+    Route::put('/movetotrash/{id}', [AuthorController::class, 'movetotrash'])->name('backend.author.movetotrash');
+    Route::get('/trash/list', [AuthorController::class, 'viewtrash'])->name('backend.author.viewtrash');
+    Route::put('/restore/{id}', [AuthorController::class, 'restore'])->name('backend.author.restore');
+    Route::put('/updatestatus/{id}', [AuthorController::class, 'updatestatus'])->name('backend.author.updatestatus')->middleware('auth');
+});

@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="{{ asset('backend/dist/css/bootstrap-toggle.min.css') }}">
     <!-- Sweet Alert-->
     <link rel="stylesheet" href="{{ asset('backend/plugins/sweetalert2/sweetalert2.min.css') }}">
+    <!-- Select 2 -->
+    <link rel="stylesheet" href="{{ asset('backend/plugins/select2/css/select2.min.css') }}">
 
     <!-- Styles -->
     {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
@@ -72,6 +74,8 @@
     <script src="{{ asset('backend/dist/js/bootstrap-toggle.min.js') }}"></script>
     <!-- SweetAlert -->
     <script src="{{ asset('backend/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    <!-- Select2 -->
+    <script src="{{ asset('backend/plugins/select2/js/select2.min.js') }}"></script>
 
     <!-- Tiny MCE -->
     <script src="https://cdn.tiny.cloud/1/2j5hx44mnplsxletoqoajrmiit0gyisjx212tnwkdi0f0zdv/tinymce/7/tinymce.min.js"

@@ -7,13 +7,14 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Post - View</h1>
+                        <h1 class="m-0">Author - View</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('backend.post.create') }}" class="btn btn-success mr-2">Add Post</a>
-                                <a href="{{ route('backend.post.viewtrash') }}" class="btn btn-warning" title="Trash posts">
+                                <a href="{{ route('backend.author.create') }}" class="btn btn-success mr-2">Add Author</a>
+                                <a href="{{ route('backend.author.viewtrash') }}" class="btn btn-warning"
+                                    title="Trash authors">
                                     <i class="fas fa-trash"></i></a>
                             </li>
                         </ol>
@@ -33,59 +34,53 @@
                                 <table class="table table-hover text-nowrap">
                                     <thead>
                                         <tr>
-                                            {{-- <th>ID</th> --}}
                                             <th style="text-align: center;">Image</th>
                                             <th style="text-align: center;">Status</th>
-                                            <th>Title</th>
-                                            <th>Summary</th>
+                                            <th>Name</th>
                                             <th>Description</th>
                                             <th style="text-align: center;">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($posts as $post)
+                                        @foreach ($authors as $author)
                                             <tr>
-                                                {{-- <td>{{ $post->id }}</td> --}}
-                                                <td style="text-align: center;"><img src="{{ $post->image }}"
+                                                <td style="text-align: center;"><img src="{{ $author->image }}"
                                                         alt=""
                                                         style="max-width: 50px; max-height:50px; border-radius:5px"></td>
 
                                                 <td style="text-align: center;">
-                                                    {{-- {{ $post->is_published }} --}}
-                                                    {!! Form::checkbox('is_published', 1, $post->is_published == 1 ? true : false, [
-                                                        'id' => 'is_published',
-                                                        'class' => 'form-check-input is_published' . ($errors->has('is_published') ? ' is-invalid' : ''),
+                                                    {!! Form::checkbox('is_active', 1, $author->is_active == 1 ? true : false, [
+                                                        'id' => 'is_active',
+                                                        'class' => 'form-check-input is_active' . ($errors->has('is_active') ? ' is-invalid' : ''),
                                                         'data-toggle' => 'toggle',
                                                         'data-on' => ' ',
                                                         'data-off' => ' ',
                                                         'data-onstyle' => 'success',
                                                         'data-offstyle' => 'danger',
                                                         'data-size' => 'mini',
-                                                        'data-id' => $post->id,
+                                                        'data-id' => $author->id,
                                                     ]) !!}
                                                 </td>
 
-                                                <td>{{ Str::limit($post->title, 20, '...') }}</td>
+                                                <td>{{ $author->name }}</td>
 
-                                                <td>{!! Str::limit(strip_tags($post->summary), 30, '...') !!}</td>
-
-                                                <td>{!! Str::limit(strip_tags($post->description), 45, '...') !!}</span></td>
+                                                <td>{!! Str::limit(strip_tags($author->description), 100, '...') !!}</span></td>
 
                                                 <td style="text-align: center; display: flex; justify-content: space-evenly;"
                                                     class="gap-2">
-                                                    <a href="{{ route('backend.post.edit', $post->id) }}"
-                                                        class="btn btn-warning" title="Edit post">
+                                                    <a href="{{ route('backend.author.edit', $author->id) }}"
+                                                        class="btn btn-warning" title="Edit author">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
                                                     {!! Form::open([
-                                                        'route' => ['backend.post.movetotrash', $post->id],
+                                                        'route' => ['backend.author.movetotrash', $author->id],
                                                         'method' => 'PUT',
                                                     ]) !!}
                                                     {!! Form::button('<i class="fas fa-trash"></i>', [
                                                         'type' => 'submit',
                                                         'class' => 'btn btn-danger movetotrash',
                                                         'title' => 'Move to trash',
-                                                        'data-id' => $post->id,
+                                                        'data-id' => $author->id,
                                                     ]) !!}
                                                     {!! Form::close() !!}
 
@@ -102,7 +97,7 @@
                 </div>
                 <!-- /.row -->
                 {{-- pagination --}}
-                @include('layouts.pagination', ['data' => $posts])
+                @include('layouts.pagination', ['data' => $authors])
             </div>
             <!-- /.container-fluid -->
         </section>
@@ -119,15 +114,15 @@
                 }
             });
             // jQuery to update published status of post
-            $('.is_published').on('change', function() {
+            $('.is_active').on('change', function() {
                 let postId = $(this).attr('data-id');
                 let isPublished = $(this).prop('checked') ? 1 : 0;
                 // alert(postId + ": " + isPublished); // Fixed syntax error in alert statement
                 $.ajax({
                     type: 'PUT',
-                    url: `{{ route('backend.post.updatestatus', '') }}/${postId}`,
+                    url: `{{ route('backend.author.updatestatus', '') }}/${postId}`,
                     data: {
-                        is_published: isPublished,
+                        is_active: isPublished,
                     },
                     success: function(response) {
                         Swal.fire({

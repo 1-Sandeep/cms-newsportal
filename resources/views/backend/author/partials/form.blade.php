@@ -3,10 +3,9 @@
     $is_create = $third_segment === 'create';
     $is_edit = $third_segment === 'edit';
 
-    $title_value = old('title') ?? ($is_edit ? $post->title : '');
-    $description_value = old('description') ?? ($is_edit ? $post->description : '');
-    $summary_value = old('summary') ?? ($is_edit ? $post->summary : '');
-    $is_published_value = old('is_published') ?? ($is_edit ? $post->is_published : true);
+    $title_value = old('name') ?? ($is_edit ? $author->name : '');
+    $description_value = old('description') ?? ($is_edit ? $author->description : '');
+    $is_active = old('is_actuve') ?? ($is_edit ? $author->is_active : true);
 
 @endphp
 @extends('layouts.app')
@@ -20,16 +19,17 @@
                     <div class="col-sm-6">
                         <h1 class="m-0">
                             @if ($is_create)
-                                Post - Create
+                                Author - Create
                             @elseif ($is_edit)
-                                Post - Edit
+                                Author - Edit
                             @endif
                         </h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('backend.post.index') }}" class="text-danger font-weight-bold">Go Back</a>
+                                <a href="{{ route('backend.author.index') }}" class="text-danger font-weight-bold">Go
+                                    Back</a>
                             </li>
                         </ol>
                     </div><!-- /.col -->
@@ -50,25 +50,24 @@
                             <!-- form start -->
                             <div class="card-body">
                                 {!! Form::open([
-                                    'route' => $is_edit ? ['backend.post.update', $post->id] : ['backend.post.store'],
+                                    'route' => $is_edit ? ['backend.author.update', $author->id] : ['backend.author.store'],
                                     'method' => $is_edit ? 'PUT' : 'POST',
                                     'enctype' => 'multipart/form-data',
                                     'files' => true,
                                 ]) !!}
 
                                 <div class="form-group">
-                                    {!! Form::label('title', 'Title') !!}<span class="text-danger">*</span>
-                                    {!! Form::text('title', $title_value, [
-                                        'id' => 'title',
-                                        'class' => 'form-control' . ($errors->has('title') ? ' is-invalid' : ''),
+                                    {!! Form::label('name', 'Name') !!}<span class="text-danger">*</span>
+                                    {!! Form::text('name', $title_value, [
+                                        'id' => 'name',
+                                        'class' => 'form-control' . ($errors->has('name') ? ' is-invalid' : ''),
                                     ]) !!}
-                                    @error('title')
+                                    @error('name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
                                 </div>
-
 
                                 <div class="form-group">
                                     {!! Form::label('description', 'Description') !!}<span class="text-danger">*</span>
@@ -82,20 +81,6 @@
                                         </span>
                                     @enderror
                                 </div>
-
-                                <div class="form-group">
-                                    {!! Form::label('summary', 'Summary') !!}
-                                    {!! Form::textarea('summary', $summary_value, [
-                                        'id' => 'summary',
-                                        'class' => 'form-control tinyMCE' . ($errors->has('summary') ? ' is-invalid' : ''),
-                                    ]) !!}
-                                    @error('summary')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-
 
                                 <div class="form-group">
                                     {!! Form::label('image', 'Upload Image') !!}
@@ -113,28 +98,11 @@
                                     @enderror
                                 </div>
 
-                                {{-- select2 for active authors and active categories --}}
-                                {{-- <div class="form-group row">
-                                    <div class="col-md-6">
-                                        {!! Form::label('author', 'Select Author') !!} <span class="text-danger">*</span>
-                                        {!! Form::select('author[]', $authors->pluck('name', 'id'), null, [
-                                            'class' => 'form-control select-multiple-value select-author' . ($errors->has('author[]') ? 'is-invalid' : ''),
-                                            'multiple' => 'multiple',
-                                        ]) !!}
-                                        @error('author')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                                        @enderror
-                                    </div>
-                                </div> --}}
-
-
                                 <div class="form-group">
-                                    {!! Form::label('is_published', 'Post Status') !!}
-                                    {!! Form::checkbox('is_published', 1, $is_published_value, [
-                                        'id' => 'is_published',
-                                        'class' => 'form-check-input' . ($errors->has('is_published') ? ' is-invalid' : ''),
+                                    {!! Form::label('is_active', 'Post Status') !!}
+                                    {!! Form::checkbox('is_active', 1, $is_active, [
+                                        'id' => 'is_active',
+                                        'class' => 'form-check-input' . ($errors->has('is_active') ? ' is-invalid' : ''),
                                         'data-toggle' => 'toggle',
                                         'data-on' => ' ',
                                         'data-off' => ' ',
@@ -142,7 +110,7 @@
                                         'data-offstyle' => 'danger',
                                         'data-size' => 'mini',
                                     ]) !!}
-                                    @error('is_published')
+                                    @error('is_active')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
@@ -151,7 +119,7 @@
 
                                 <div class="form-group ">
                                     {!! Form::submit('Submit', ['class' => ' btn btn-primary']) !!}
-                                    <a href="{{ route('backend.post.index') }}" class=" btn btn-danger">Cancel</a>
+                                    <a href="{{ route('backend.author.index') }}" class=" btn btn-danger">Cancel</a>
                                 </div>
 
                             </div>
@@ -167,20 +135,4 @@
         <!-- /.content -->
 
     </div>
-@endsection
-
-
-@section('script')
-    <script>
-        $(document).ready(function() {
-            // initializing select2 for select dropdown
-            $('.select-multiple-value').select2(
-
-            );
-            // doesnot close dropdown on each item select
-            $('.select-author').select2({
-                closeOnSelect: false
-            });
-        });
-    </script>
 @endsection

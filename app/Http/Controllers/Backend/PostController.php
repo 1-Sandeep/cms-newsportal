@@ -7,6 +7,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\PostRequest;
+use App\Models\Author;
 
 class PostController extends Controller
 {
@@ -33,7 +34,10 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('backend.post.partials.form');
+        $authors = Author::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc');
+        return view('backend.post.partials.form', [
+            'authors' => $authors
+        ]);
     }
 
     /**
@@ -84,7 +88,7 @@ class PostController extends Controller
     public function edit(string $id)
     {
         try {
-            $post = Post::findOrFail($id);
+            $post = Post::where('trash', 0)->findOrFail($id);
             return view('backend.post.partials.form', [
                 'post' => $post,
             ]);
@@ -107,7 +111,7 @@ class PostController extends Controller
             $validatedData = $req->validated();
 
             // Find the post
-            $post = Post::findOrFail($id);
+            $post = Post::where('trash', 0)->findOrFail($id);
 
             // Initialize image name, with the old one
             $img_name = $post->image;
@@ -137,24 +141,6 @@ class PostController extends Controller
 
 
     /**
-     * Moves a post to the trash
-     *
-     * @param string $id
-     * @return void
-     */
-    public function movetotrash(string $id)
-    {
-        try {
-            $post = Post::findOrFail($id);
-            $post->trash = 1;
-            $post->save(); // Save the changes to the database
-            return redirect()->route('backend.post.index')->with('success', 'Post has been moved to trash');
-        } catch (\Exception $err) {
-            return redirect()->route('backend.post.index')->json('error', 'Failed to move post to trash');
-        }
-    }
-
-    /**
      * Dispay listing of trashed post
      *
      * @return void
@@ -171,6 +157,25 @@ class PostController extends Controller
             ]);
         } catch (\Exception $err) {
             return redirect()->back()->with('error', 'Failed to retrieve trashed posts. Please try again.');
+        }
+    }
+
+
+    /**
+     * Moves a post to the trash
+     *
+     * @param string $id
+     * @return void
+     */
+    public function movetotrash(string $id)
+    {
+        try {
+            $post = Post::findOrFail($id);
+            $post->trash = 1;
+            $post->save(); // Save the changes to the database
+            return redirect()->route('backend.post.index')->with('success', 'Post has been moved to trash');
+        } catch (\Exception $err) {
+            return redirect()->route('backend.post.index')->json('error', 'Failed to move post to trash');
         }
     }
 
