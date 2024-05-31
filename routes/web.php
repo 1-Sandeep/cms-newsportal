@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\TagController;
 use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\AuthorController;
 use App\Http\Controllers\Backend\CategoryController;
@@ -77,4 +78,11 @@ Route::middleware(['auth'])->prefix('/cms/category')->group(function () {
     Route::put('/movetotrash/{id}', [CategoryController::class, 'movetotrash'])->name('backend.category.movetotrash');
     Route::put('/restore/{id}', [CategoryController::class, 'restore'])->name('backend.category.restore');
     Route::put('/updatestatus/{id}', [CategoryController::class, 'updatestatus'])->name('backend.category.updatestatus');
+});
+
+
+Route::middleware(['auth'])->prefix('/cms/tag')->group(function () {
+    Route::get('/list', [TagController::class, 'index'])->name('backend.tag.index');
+    Route::post('/store', [TagController::class, 'store'])->name('backend.tag.store');
+    Route::delete('/delete/{id}', [TagController::class, 'destroy'])->name('backend.tag.delete');
 });

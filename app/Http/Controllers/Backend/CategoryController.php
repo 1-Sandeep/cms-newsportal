@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use Exception;
 use Carbon\Carbon;
-use App\Models\Category;
+use App\Models\Backend\Category;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;

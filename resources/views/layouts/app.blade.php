@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('backend/dist/css/adminlte.min.css') }}">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{{ asset('backend/plugins/bootstrap/css') }}">
     <!-- Bootstrap Toggle -->
     <link rel="stylesheet" href="{{ asset('backend/dist/css/bootstrap-toggle.min.css') }}">
     <!-- Sweet Alert-->
