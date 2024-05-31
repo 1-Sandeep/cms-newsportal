@@ -97,20 +97,35 @@
                                 </div>
 
 
-                                <div class="form-group">
-                                    {!! Form::label('image', 'Upload Image') !!}
-                                    <span class="text-muted ml-2 text-sm">Max Size: 2MB</span>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        {!! Form::label('image', 'Upload Image') !!}
+                                        <span class="text-muted ml-2 text-sm">Max Size: 2MB</span>
 
-                                    {!! Form::file('image', [
-                                        'id' => 'image',
-                                        'class' => 'form-control' . ($errors->has('image') ? ' is-invalid' : ''),
-                                    ]) !!}
+                                        {!! Form::file('image', [
+                                            'id' => 'image',
+                                            'class' => 'form-control' . ($errors->has('image') ? ' is-invalid' : ''),
+                                        ]) !!}
 
-                                    @error('image')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
+                                        @error('image')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        {!! Form::label('tag', 'Tags') !!} <span class="text-danger">*</span>
+                                        {!! Form::select('tag[]', $tags->pluck('title', 'id'), null, [
+                                            'class' => 'form-control select-multiple-value select-tag' . ($errors->has('tag') ? ' is-invalid' : ''),
+                                            'multiple' => 'multiple',
+                                        ]) !!}
+                                        @error('tag')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                        @enderror
+                                    </div>
                                 </div>
 
                                 <div class="form-group row">
@@ -193,6 +208,9 @@
                 closeOnSelect: false
             });
             $('.select-category').select2({
+                closeOnSelect: false
+            });
+            $('.select-tag').select2({
                 closeOnSelect: false
             });
         });

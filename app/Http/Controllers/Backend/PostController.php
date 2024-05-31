@@ -6,9 +6,10 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\PostRequest;
-use App\Models\Backend\Post;
-use App\Models\Backend\Author;
-use App\Models\Backend\Category;
+use App\Models\Post;
+use App\Models\Author;
+use App\Models\Category;
+use App\Models\Tag;
 
 class PostController extends Controller
 {
@@ -30,9 +31,12 @@ class PostController extends Controller
     {
         $authors = Author::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc')->get();
         $categories = Category::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc')->get();
+        $tags = Tag::orderBy('created_at', 'desc')->get();
+        // dd($tags);
         return view('backend.post.partials.form', [
             'authors' => $authors,
             'categories' => $categories,
+            'tags' => $tags,
         ]);
     }
 
@@ -56,6 +60,11 @@ class PostController extends Controller
                 'is_published' => $req->has('is_published') ? (int)$req->is_published : 0
             ]);
             $post->save();
+
+            $post->author()->sync($req->author);
+            $post->category()->sync($req->category);
+            $post->tag()->sync($req->tag);
+
             return redirect()->route('backend.post.index')->with('success', 'Post has been added successfully');
         } catch (\Exception $err) {
             return redirect()->back()->withInput()->with('error', 'Failed to add post. Please try again.');
@@ -95,6 +104,7 @@ class PostController extends Controller
                 'image' => $img_name,
                 'is_published' => $req->has('is_published') ? (int)$validatedData['is_published'] : 0
             ]);
+
             return redirect()->route('backend.post.index')->with('success', 'Post has been updated successfully');
         } catch (\Exception $err) {
             return redirect()->back()->withInput()->with('error', 'Failed to update post. Please try again.');

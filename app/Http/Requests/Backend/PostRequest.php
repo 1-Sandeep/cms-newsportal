@@ -31,6 +31,7 @@ class PostRequest extends FormRequest
             'is_published' => ['boolean'],
             'author' => ['required', 'array'],
             'category' => ['required', 'array'],
+            'tag' => ['array']
         ];
     }
 
