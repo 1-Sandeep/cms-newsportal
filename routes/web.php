@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\TagController;
 use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\AuthorController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +20,7 @@ use App\Http\Controllers\Backend\CategoryController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('frontend.welcome');
 });
 
 Auth::routes();
@@ -85,4 +86,18 @@ Route::middleware(['auth'])->prefix('/cms/tag')->group(function () {
     Route::get('/list', [TagController::class, 'index'])->name('backend.tag.index');
     Route::post('/store', [TagController::class, 'store'])->name('backend.tag.store');
     Route::delete('/delete/{id}', [TagController::class, 'destroy'])->name('backend.tag.delete');
+});
+
+
+Route::middleware(['auth'])->prefix('/cms/user')->group(function () {
+    Route::get('/list', [UserController::class, 'index'])->name('backend.user.index');
+    Route::get('/create', [UserController::class, 'create'])->name('backend.user.create');
+    Route::post('/store', [UserController::class, 'store'])->name('backend.user.store');
+    Route::get('/edit/{id}', [UserController::class, 'edit'])->name('backend.user.edit');
+    Route::put('/update/{id}', [UserController::class, 'update'])->name('backend.user.update');
+    Route::delete('/delete/{id}', [UserController::class, 'destroy'])->name('backend.user.delete');
+    Route::get('/trash/list', [UserController::class, 'viewtrash'])->name('backend.user.viewtrash');
+    Route::put('/movetotrash/{id}', [UserController::class, 'movetotrash'])->name('backend.user.movetotrash');
+    Route::put('/restore/{id}', [UserController::class, 'restore'])->name('backend.user.restore');
+    Route::put('/updatestatus/{id}', [UserController::class, 'updatestatus'])->name('backend.user.updatestatus');
 });

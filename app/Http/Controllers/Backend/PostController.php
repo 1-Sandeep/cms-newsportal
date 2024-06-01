@@ -32,7 +32,6 @@ class PostController extends Controller
         $authors = Author::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc')->get();
         $categories = Category::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc')->get();
         $tags = Tag::orderBy('created_at', 'desc')->get();
-        // dd($tags);
         return view('backend.post.partials.form', [
             'authors' => $authors,
             'categories' => $categories,
@@ -75,9 +74,20 @@ class PostController extends Controller
     public function edit(string $id)
     {
         try {
+
+            $authors = Author::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc')->get();
+            $categories = Category::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc')->get();
+            $tags = Tag::orderBy('created_at', 'desc')->get();
+
             $post = Post::where('trash', 0)->findOrFail($id);
             return view('backend.post.partials.form', [
                 'post' => $post,
+                'authors' => $authors,
+                'tags' => $tags,
+                'categories' => $categories,
+                'selectedCategories' => $post->category->pluck('id')->toArray(),
+                'selectedAuthors' => $post->author->pluck('id')->toArray(),
+                'selectedTags' => $post->tag->pluck('id')->toArray(),
             ]);
         } catch (\Exception $err) {
             return redirect()->back()->with('error', 'Post not found');
@@ -104,6 +114,11 @@ class PostController extends Controller
                 'image' => $img_name,
                 'is_published' => $req->has('is_published') ? (int)$validatedData['is_published'] : 0
             ]);
+
+
+            $post->author()->sync($req->author);
+            $post->category()->sync($req->category);
+            $post->tag()->sync($req->tag);
 
             return redirect()->route('backend.post.index')->with('success', 'Post has been updated successfully');
         } catch (\Exception $err) {

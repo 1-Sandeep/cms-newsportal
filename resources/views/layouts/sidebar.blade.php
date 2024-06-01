@@ -100,7 +100,8 @@
                 </li>
 
                 <li class="nav-item">
-                    <a href="#" class="nav-link">
+                    <a href="#"
+                        class="nav-link {{ $second_segment == 'user' || $second_segment == 'role' || $second_segment == 'permission' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-user"></i>
                         <p>
                             User
@@ -109,7 +110,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="pages/examples/invoice.html"
+                            <a href="{{ route('backend.user.index') }}"
                                 class="nav-link {{ $second_segment == 'user' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>User</p>

@@ -116,7 +116,7 @@
 
                                     <div class="col-md-6">
                                         {!! Form::label('tag', 'Tags') !!} <span class="text-danger">*</span>
-                                        {!! Form::select('tag[]', $tags->pluck('title', 'id'), null, [
+                                        {!! Form::select('tag[]', $tags->pluck('title', 'id'), $is_edit ? $selectedTags : null, [
                                             'class' => 'form-control select-multiple-value select-tag' . ($errors->has('tag') ? ' is-invalid' : ''),
                                             'multiple' => 'multiple',
                                         ]) !!}
@@ -131,7 +131,7 @@
                                 <div class="form-group row">
                                     <div class="col-md-6">
                                         {!! Form::label('author', 'Select Author') !!} <span class="text-danger">*</span>
-                                        {!! Form::select('author[]', $authors->pluck('name', 'id'), null, [
+                                        {!! Form::select('author[]', $authors->pluck('name', 'id'), $is_edit ? $selectedAuthors : null, [
                                             'class' => 'form-control select-multiple-value select-author' . ($errors->has('author') ? ' is-invalid' : ''),
                                             'multiple' => 'multiple',
                                         ]) !!}
@@ -144,7 +144,7 @@
 
                                     <div class="col-md-6">
                                         {!! Form::label('category', 'Select Category') !!} <span class="text-danger">*</span>
-                                        {!! Form::select('category[]', $categories->pluck('title', 'id'), null, [
+                                        {!! Form::select('category[]', $categories->pluck('title', 'id'), $is_edit ? $selectedCategories : null, [
                                             'class' => 'form-control select-multiple-value select-category' . ($errors->has('category') ? ' is-invalid' : ''),
                                             'multiple' => 'multiple',
                                         ]) !!}

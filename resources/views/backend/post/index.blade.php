@@ -74,12 +74,12 @@
 
                                                 <td style="text-align: center; display: flex; justify-content: space-evenly;"
                                                     class="gap-2">
-                                                    <a href="{{ route('backend.post.edit', $post->id) }}"
+                                                    <a href="{{ route('backend.post.edit', ['id' => $post->id]) }}"
                                                         class="btn btn-warning" title="Edit post">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
                                                     {!! Form::open([
-                                                        'route' => ['backend.post.movetotrash', $post->id],
+                                                        'route' => ['backend.post.movetotrash', 'id' => $post->id],
                                                         'method' => 'PUT',
                                                     ]) !!}
                                                     {!! Form::button('<i class="fas fa-trash"></i>', [
