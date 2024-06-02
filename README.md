@@ -1,6 +1,4 @@
-<h1 align="center">
-# News Portal Project
-</h1>
+<h1 align="center"> CMS - News Site </h1>
 Welcome to the News Portal Project! This project is a CMS specifically designed for managing a news portal site. The backend is powered by Laravel and the AdminLTE dashboard template, while the frontend utilizes the MAGNEWS news template for a modern and responsive design.
 
 ## Table of Contents
@@ -24,6 +22,11 @@ Welcome to the News Portal Project! This project is a CMS specifically designed 
 -   Move posts, authors, and categories to the trash.
 -   Items in the trash and unpublished items are not visible on the frontend.
 -   Prevent deletion of authors and categories that have assigned posts.
+
+<strong>To be added</strong>
+-    User Module, Roles and Permission Module
+-    Static page module
+-    Dynamic Footer Content
 
 ## Technologies Used
 
@@ -102,7 +105,7 @@ After setting up the project, you can access the backend dashboard at `/admin` a
 ## Authentication and Authorization
 
 -   **User Authentication**: Handled by Laravel Bootstrap UI.
--   **Authorization**: Gates and policies are used to authorize operations within the site.
+-   **Authorization**: Gates and policies will be used to authorize user's actions within the site.
 
 ## Interactive UI Elements
 
