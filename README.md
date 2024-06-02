@@ -1,4 +1,4 @@
-<h1 align="center"> CMS - News Site </h1>
+<h1 align="center"> CMS - NewsPortal </h1>
 Welcome to the News Portal Project! This project is a CMS specifically designed for managing a news portal site. The backend is powered by Laravel and the AdminLTE dashboard template, while the frontend utilizes the MAGNEWS news template for a modern and responsive design.
 
 ## Table of Contents
