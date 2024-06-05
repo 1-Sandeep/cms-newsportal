@@ -33,7 +33,6 @@
                                 <table class="table table-hover text-nowrap">
                                     <thead>
                                         <tr>
-                                            {{-- <th>ID</th> --}}
                                             <th style="width:10%; text-align: center;">Image</th>
                                             <th>Title</th>
                                             <th>Summary</th>
@@ -45,7 +44,6 @@
                                     <tbody>
                                         @foreach ($posts as $post)
                                             <tr>
-                                                {{-- <td>{{ $post->id }}</td> --}}
                                                 <td style="text-align: center;">
                                                     <img src="{{ $post->image }}" alt=""
                                                         style="max-width: 50px; max-height:50px; border-radius:5px">

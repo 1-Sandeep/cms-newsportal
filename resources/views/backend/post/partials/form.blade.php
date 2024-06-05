@@ -96,7 +96,6 @@
                                     @enderror
                                 </div>
 
-
                                 <div class="form-group row">
                                     <div class="col-md-6">
                                         {!! Form::label('image', 'Upload Image') !!}
@@ -203,7 +202,7 @@
             $('.select-multiple-value').select2(
 
             );
-            // doesnot close dropdown on each item select
+            // doesnot close dropdown on item select
             $('.select-author').select2({
                 closeOnSelect: false
             });

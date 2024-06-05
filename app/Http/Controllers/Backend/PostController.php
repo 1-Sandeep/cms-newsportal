@@ -29,13 +29,10 @@ class PostController extends Controller
 
     public function create()
     {
-        $authors = Author::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc')->get();
-        $categories = Category::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc')->get();
-        $tags = Tag::orderBy('created_at', 'desc')->get();
         return view('backend.post.partials.form', [
-            'authors' => $authors,
-            'categories' => $categories,
-            'tags' => $tags,
+            'authors' => Author::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc')->get(),
+            'categories' => Category::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc')->get(),
+            'tags' => Tag::orderBy('created_at', 'desc')->get(),
         ]);
     }
 
@@ -60,9 +57,15 @@ class PostController extends Controller
             ]);
             $post->save();
 
-            $post->author()->sync($req->author);
-            $post->category()->sync($req->category);
-            $post->tag()->sync($req->tag);
+            if ($req->has('author')) {
+                $post->author()->sync($req->author);
+            }
+            if ($req->has('category')) {
+                $post->category()->sync($req->category);
+            }
+            if ($req->has('tag')) {
+                $post->tag()->sync($req->tag);
+            }
 
             return redirect()->route('backend.post.index')->with('success', 'Post has been added successfully');
         } catch (\Exception $err) {
@@ -74,17 +77,12 @@ class PostController extends Controller
     public function edit(string $id)
     {
         try {
-
-            $authors = Author::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc')->get();
-            $categories = Category::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc')->get();
-            $tags = Tag::orderBy('created_at', 'desc')->get();
-
             $post = Post::where('trash', 0)->findOrFail($id);
             return view('backend.post.partials.form', [
                 'post' => $post,
-                'authors' => $authors,
-                'tags' => $tags,
-                'categories' => $categories,
+                'authors' => Author::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc')->get(),
+                'tags' => Tag::orderBy('created_at', 'desc')->get(),
+                'categories' => Category::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc')->get(),
                 'selectedCategories' => $post->category->pluck('id')->toArray(),
                 'selectedAuthors' => $post->author->pluck('id')->toArray(),
                 'selectedTags' => $post->tag->pluck('id')->toArray(),
@@ -115,10 +113,15 @@ class PostController extends Controller
                 'is_published' => $req->has('is_published') ? (int)$validatedData['is_published'] : 0
             ]);
 
-
-            $post->author()->sync($req->author);
-            $post->category()->sync($req->category);
-            $post->tag()->sync($req->tag);
+            if ($req->has('author')) {
+                $post->author()->sync($req->author);
+            }
+            if ($req->has('category')) {
+                $post->category()->sync($req->category);
+            }
+            if ($req->has('tag')) {
+                $post->tag()->sync($req->tag);
+            }
 
             return redirect()->route('backend.post.index')->with('success', 'Post has been updated successfully');
         } catch (\Exception $err) {

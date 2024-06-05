@@ -49,7 +49,7 @@
                                                         'route' => ['backend.category.restore', $category->id],
                                                         'method' => 'PUT',
                                                     ]) !!}
-                                                    {!! Form::button('Restore', [
+                                                    {!! Form::button('<i class="fas fa-redo"></i>', [
                                                         'type' => 'submit',
                                                         'class' => 'btn btn-warning restorecategory',
                                                         'title' => 'Restore category',

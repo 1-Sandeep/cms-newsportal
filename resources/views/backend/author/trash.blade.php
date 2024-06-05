@@ -55,7 +55,7 @@
                                                         'route' => ['backend.author.restore', $author->id],
                                                         'method' => 'PUT',
                                                     ]) !!}
-                                                    {!! Form::button('Restore', [
+                                                    {!! Form::button('<i class="fas fa-redo"></i>', [
                                                         'type' => 'submit',
                                                         'class' => 'btn btn-warning restoreauthor',
                                                         'title' => 'Restore author',
