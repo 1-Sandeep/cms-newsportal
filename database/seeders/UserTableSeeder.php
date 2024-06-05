@@ -15,6 +15,9 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
+        // factory
+        User::factory()->count(23)->create();
+
         $users = [
             [
                 'name' => 'Super Admin',
@@ -23,12 +26,11 @@ class UserTableSeeder extends Seeder
             ],
 
             [
-                'name' => 'Sandeep Poudel',
-                'email' => 'sandeeppoudel00@gmail.com',
-                'password' => Hash::make('Sandeep@5635'),
+                'name' => 'John Doe',
+                'email' => 'johndoe@gmail.com',
+                'password' => Hash::make('John@123456'),
             ],
         ];
-
 
         foreach ($users as $user) {
 

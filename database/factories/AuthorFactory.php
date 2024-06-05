@@ -17,7 +17,6 @@ class AuthorFactory extends Factory
             'name' => $this->faker->name(),
             'description' => $this->faker->paragraph(3),
             'is_active' => $this->faker->boolean(),
-            'image' => $this->faker->imageUrl(),
             'trash' => $this->faker->boolean(32)
         ];
     }

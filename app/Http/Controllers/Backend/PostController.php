@@ -46,7 +46,7 @@ class PostController extends Controller
                 $img_file = $req->file('image');
                 $img_ext = $img_file->getClientOriginalExtension();
                 $img_name = time() . "." . $img_ext;
-                $img_file->move(public_path('uploads/post'));
+                $img_file->move(public_path('uploads/posts'));
             }
             $post = new Post([
                 'title' => $req->title,
@@ -103,7 +103,7 @@ class PostController extends Controller
                 $img_file = $req->file('image');
                 $img_ext = $img_file->getClientOriginalExtension();
                 $img_name = time() . "." . $img_ext;
-                $img_file->move(public_path('uploads/post'), $img_name);
+                $img_file->move(public_path('uploads/posts'), $img_name);
             }
             $post->update([
                 'title' => $validatedData['title'],
@@ -149,7 +149,7 @@ class PostController extends Controller
     public function movetotrash(string $id)
     {
         try {
-            $post = Post::findOrFail($id);
+            $post = Post::where('trash', 0)->findOrFail($id);
             $post->trash = 1;
             $post->save();
             return redirect()->route('backend.post.index')->with('success', 'Post has been moved to trash');
@@ -162,7 +162,7 @@ class PostController extends Controller
     public function restore(string $id)
     {
         try {
-            $post = Post::findOrFail($id);
+            $post = Post::where('trash', 1)->findOrFail($id);
             $post->trash = 0;
             $post->save();
             return redirect()->route('backend.post.viewtrash')->with('success', 'Post has been restored successfully');
@@ -175,7 +175,7 @@ class PostController extends Controller
     public function destroy(string $id)
     {
         try {
-            $post = Post::findOrFail($id);
+            $post = Post::where('trash', 1)->findOrFail($id);
             $post->delete();
             return redirect()->route('backend.post.viewtrash')->with('success', 'Post has been deleted successfully');
         } catch (\Exception $err) {
@@ -187,7 +187,7 @@ class PostController extends Controller
     public function updatestatus(Request $req, string $id)
     {
         try {
-            $post = Post::findOrFail($id);
+            $post = Post::where('trash', 0)->findOrFail($id);
             $post->is_published = $req->is_published;
             $post->save();
             return response()->json(['message' => 'Post status updated successfully'], 200);

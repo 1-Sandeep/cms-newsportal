@@ -50,7 +50,7 @@
                                                     ]) !!}
                                                     {!! Form::button('<i class="fas fa-trash"></i>', [
                                                         'type' => 'submit',
-                                                        'class' => 'btn btn-danger deletetrash',
+                                                        'class' => 'btn btn-danger deletetag',
                                                         'title' => 'Delete tag',
                                                         'data-id' => $tag->id,
                                                     ]) !!}
@@ -118,4 +118,31 @@
         </div>
         <!-- /.modal -->
     </div>
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function() {
+            $('.deletetag').on('click', function(event) {
+                event.preventDefault(); // Prevent the default action (form submission)
+
+                var form = $(this).closest('form'); // Find the closest form element
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'You won\'t be able to revert this!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Yes, delete this tag!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        // If the user confirms, submit the form
+                        form.submit();
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

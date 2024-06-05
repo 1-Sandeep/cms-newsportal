@@ -7,13 +7,13 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Post - View</h1>
+                        <h1 class="m-0">User - View</h1>
                     </div><!-- /.col -->
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item">
-                                <a href="{{ route('backend.post.create') }}" class="btn btn-success mr-2">Add Post</a>
-                                <a href="{{ route('backend.post.viewtrash') }}" class="btn btn-warning" title="Trash posts">
+                                <a href="{{ route('backend.user.create') }}" class="btn btn-success mr-2">Add User</a>
+                                <a href="{{ route('backend.user.viewtrash') }}" class="btn btn-warning" title="Trash users">
                                     <i class="fas fa-trash"></i></a>
                             </li>
                         </ol>
@@ -34,67 +34,66 @@
                                     <thead>
                                         <tr>
                                             <th style="width:10%; text-align: center;">Image</th>
-                                            <th>Title</th>
-                                            <th>Summary</th>
-                                            <th>Description</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Roles</th>
                                             <th style="width:10%; text-align: center;">Status</th>
                                             <th style="width:10%; text-align: center;">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($posts as $post)
+                                        @foreach ($users as $user)
                                             <tr>
                                                 <td style="text-align: center;">
-                                                    @if (!$post->image)
-                                                        <img src="{{ asset('uploads/default/defaultpost.png') }}"
-                                                            alt="{{ $post->title }}"
-                                                            style="max-width: 50px; max-height:50px; border-radius:5px">
+
+                                                    @if (!$user->image)
+                                                        <img src="{{ asset('uploads/default/defaultuser.png') }}"
+                                                            alt="{{ $user->name }}"
+                                                            style="max-width: 40px; max-height: 40px; border-radius:5px">
                                                     @else
-                                                        <img src="{{ asset('uploads/post/' . $post->image) }}"
-                                                            alt="{{ $post->title }}"
-                                                            style="max-width: 50px; max-height:50px; border-radius:5px">
+                                                        <img src="{{ asset('uploads/user/' . $user->image) }}"
+                                                            alt="{{ $user->name }}"
+                                                            style="max-width: 40px; max-height: 40px; border-radius:5px">
                                                     @endif
                                                 </td>
 
-                                                <td>{{ Str::limit($post->title, 20, '...') }}</td>
+                                                <td>{{ $user->name }}</td>
 
-                                                <td>{!! Str::limit(strip_tags($post->summary), 30, '...') !!}</td>
+                                                <td>{{ $user->email }}</td>
 
-                                                <td>{!! Str::limit(strip_tags($post->description), 65, '...') !!}</span></td>
+                                                <td>user role here</td>
 
                                                 <td style="text-align: center;">
-                                                    {{-- {{ $post->is_published }} --}}
-                                                    {!! Form::checkbox('is_published', 1, $post->is_published == 1 ? true : false, [
-                                                        'id' => 'is_published',
-                                                        'class' => 'form-check-input is_published' . ($errors->has('is_published') ? ' is-invalid' : ''),
+                                                    {!! Form::checkbox('is_active', 1, $user->is_active == 1 ? true : false, [
+                                                        'id' => 'is_active',
+                                                        'class' => 'form-check-input is_active' . ($errors->has('is_active') ? ' is-invalid' : ''),
                                                         'data-toggle' => 'toggle',
                                                         'data-on' => ' ',
                                                         'data-off' => ' ',
                                                         'data-onstyle' => 'success',
                                                         'data-offstyle' => 'danger',
                                                         'data-size' => 'mini',
-                                                        'data-id' => $post->id,
+                                                        'data-id' => $user->id,
                                                     ]) !!}
                                                 </td>
 
                                                 <td style="text-align: center; display: flex; justify-content: space-evenly;"
                                                     class="gap-2">
-                                                    <a href="{{ route('backend.post.edit', ['id' => $post->id]) }}"
-                                                        class="btn btn-warning" title="Edit post">
+                                                    <a href="{{ route('backend.user.edit', ['id' => $user->id]) }}"
+                                                        class="btn btn-warning" title="Edit user">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
                                                     {!! Form::open([
-                                                        'route' => ['backend.post.movetotrash', 'id' => $post->id],
+                                                        'route' => ['backend.user.movetotrash', 'id' => $user->id],
                                                         'method' => 'PUT',
                                                     ]) !!}
                                                     {!! Form::button('<i class="fas fa-trash"></i>', [
                                                         'type' => 'submit',
                                                         'class' => 'btn btn-danger movetotrash',
                                                         'title' => 'Move to trash',
-                                                        'data-id' => $post->id,
+                                                        'data-id' => $user->id,
                                                     ]) !!}
                                                     {!! Form::close() !!}
-
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -108,7 +107,7 @@
                 </div>
                 <!-- /.row -->
                 {{-- pagination --}}
-                @include('layouts.pagination', ['data' => $posts])
+                @include('layouts.pagination', ['data' => $users])
             </div>
             <!-- /.container-fluid -->
         </section>
@@ -124,16 +123,14 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-            // jQuery to update published status of post
-            $('.is_published').on('change', function() {
+            $('.is_active').on('change', function() {
                 let postId = $(this).attr('data-id');
-                let isPublished = $(this).prop('checked') ? 1 : 0;
-                // alert(postId + ": " + isPublished); // Fixed syntax error in alert statement
+                let is_active = $(this).prop('checked') ? 1 : 0;
                 $.ajax({
                     type: 'PUT',
-                    url: `{{ route('backend.post.updatestatus', '') }}/${postId}`,
+                    url: `{{ route('backend.user.updatestatus', '') }}/${postId}`,
                     data: {
-                        is_published: isPublished,
+                        is_active: is_active,
                     },
                     success: function(response) {
                         Swal.fire({
@@ -157,8 +154,6 @@
                 event.preventDefault(); // Prevent the default action (form submission)
 
                 var form = $(this).closest('form'); // Find the closest form element
-                var postId = $(this).data('id'); // Get the post ID from data attribute
-
                 Swal.fire({
                     title: 'Are you sure?',
                     text: 'You won\'t be able to revert this!',

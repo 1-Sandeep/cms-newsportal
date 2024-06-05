@@ -45,8 +45,14 @@
                                         @foreach ($authors as $author)
                                             <tr>
                                                 <td style="text-align: center;">
-                                                    <img src="{{ $author->image }}" alt=""
-                                                        style="max-width: 50px; max-height:50px; border-radius:5px">
+                                                    @if (!$author->image)
+                                                        <img src="{{ asset('uploads/default/defaultuser.png') }}"
+                                                            alt="{{ $author->name }}"
+                                                            style="max-width: 40px; max-height: 40px; border-radius:5px">
+                                                    @else
+                                                        <img src="{{ $author->image }}" alt="{{ $author->name }}"
+                                                            style="max-width: 40px; max-height: 40px; border-radius:5px">
+                                                    @endif
                                                 </td>
 
                                                 <td>{{ $author->name }}</td>

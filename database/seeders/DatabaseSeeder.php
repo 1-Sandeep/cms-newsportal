@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             UserTableSeeder::class,
             AuthorTableSeeder::class,
             CategoryTableSeeder::class,
+            TagTableSeeder::class,
+            PermissionTableSeeder::class,
         ]);
     }
 }

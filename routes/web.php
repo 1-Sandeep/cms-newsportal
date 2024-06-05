@@ -6,6 +6,7 @@ use App\Http\Controllers\Backend\TagController;
 use App\Http\Controllers\Backend\PostController;
 use App\Http\Controllers\Backend\AuthorController;
 use App\Http\Controllers\Backend\CategoryController;
+use App\Http\Controllers\Backend\PermissionController;
 use App\Http\Controllers\Backend\UserController;
 
 /*
@@ -38,8 +39,6 @@ Route::get('/cms/dashboard', [App\Http\Controllers\HomeController::class, 'index
 // Route::get('/debug-routes', function () {
 //     dd(Route::getRoutes());
 // });
-
-
 Route::middleware(['auth'])->prefix('/cms/post')->group(function () {
     Route::get('/list', [PostController::class, 'index'])->name('backend.post.index');
     Route::get('/create', [PostController::class, 'create'])->name('backend.post.create');
@@ -101,3 +100,6 @@ Route::middleware(['auth'])->prefix('/cms/user')->group(function () {
     Route::put('/restore/{id}', [UserController::class, 'restore'])->name('backend.user.restore');
     Route::put('/updatestatus/{id}', [UserController::class, 'updatestatus'])->name('backend.user.updatestatus');
 });
+
+
+Route::get('/cms/permission/list', PermissionController::class)->name('backend.permission.index')->middleware('auth');

@@ -129,7 +129,7 @@
 
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="pages/examples/invoice.html"
+                            <a href="{{ route('backend.permission.index') }}"
                                 class="nav-link {{ $second_segment == 'permission' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Permission</p>

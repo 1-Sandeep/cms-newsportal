@@ -19,7 +19,6 @@ class PostFactory extends Factory
             'summary' => $this->faker->paragraph(2),
             'description' => $this->faker->paragraph(5),
             'is_published' => $this->faker->boolean(65),
-            'image' => $this->faker->imageUrl(400, 300),
             'trash' => $this->faker->boolean(35)
         ];
     }
