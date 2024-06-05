@@ -31,8 +31,8 @@ Welcome to the News Portal Project! This project is a CMS specifically designed 
 ## Technologies Used
 
 -   **Backend**: Laravel
--   **Frontend**: MAGNEWS template
--   **Admin Dashboard**: AdminLTE template
+-   **Frontend Template**: MAGNEWS template
+-   **Admin Dashboard Template**: AdminLTE template
 -   **Authentication**: Laravel Bootstrap UI
 -   **Forms**: Laravel Collective HTML package
 -   **Alert Messages**: SweetAlert
