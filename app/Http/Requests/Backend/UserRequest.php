@@ -23,20 +23,22 @@ class UserRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            'name' => ['required', 'string', 'max:255',],
+        // Initialize base rules
+        $rules = [
+            'name' => ['required', 'string', 'max:255'],
             'status' => ['boolean'],
             'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg'],
             'role' => ['nullable', 'array'],
         ];
 
-        // Add unique rule conditionally if slug is provided
+        // Add additional rules for POST method
         if ($this->isMethod('post')) {
             $rules['email'] = ['required', 'email', 'string', 'max:255', 'unique:users'];
             $rules['password'] = ['required', 'min:8', 'confirmed', 'string'];
             $rules['password_confirmation'] = ['required', 'same:password', 'string'];
         }
 
+        // Add additional rules for PUT method
         if ($this->isMethod('put')) {
             $userId = $this->route('id'); // Assuming the route parameter is 'id'
             $rules['email'] = ['required', 'email', 'string', 'max:255', 'unique:users,email,' . $userId];

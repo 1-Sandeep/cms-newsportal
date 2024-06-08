@@ -15,20 +15,22 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        // factory
-        User::factory()->count(23)->create();
 
         $users = [
             [
                 'name' => 'Super Admin',
                 'email' => 'superadmin@spblog.com',
                 'password' => Hash::make('Admin5635@5P6l0G#'),
+                'is_active' => 1,
+                'trash' => 0,
             ],
 
             [
                 'name' => 'John Doe',
                 'email' => 'johndoe@gmail.com',
                 'password' => Hash::make('John@123456'),
+                'is_active' => 1,
+                'trash' => 0,
             ],
         ];
 
