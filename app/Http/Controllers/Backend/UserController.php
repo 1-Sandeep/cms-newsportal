@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Models\Permission;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -22,7 +24,10 @@ class UserController extends Controller
 
     public function create()
     {
-        return view('backend.user.partials.form');
+        $roles = Role::orderBy('created_at', 'desc')->get();
+        return view('backend.user.partials.form', [
+            'roles' => $roles
+        ]);
     }
 
     public function store(UserRequest $req)
@@ -41,9 +46,14 @@ class UserController extends Controller
                 'email' => $req->email,
                 'password' => Hash::make($req->password),
                 'image' => $img_name,
-                'is_active' => $req->has('is_active') ? (int)$req->is_active : 0
+                'is_active' => $req->has('is_active') ? (int) $req->is_active : 0
             ]);
             $user->save();
+
+            if ($req->has('role')) {
+                $user->role()->sync($req->role);
+            }
+
             return redirect()->route('backend.user.index')->with('success', 'New user created successfully');
         } catch (Exception $err) {
             return redirect()->back()->with('error', 'Failed to add new user')->withInput();
@@ -55,7 +65,13 @@ class UserController extends Controller
     {
         try {
             $user = User::where('trash', 0)->findOrFail($id);
-            return view('backend.user.partials.form', ['user' => $user]);
+            $roles = Role::orderBy('created_at', 'desc')->get();
+            $selectedRoles = $user->role->pluck('id')->toArray() ?? [];
+            return view('backend.user.partials.form', [
+                'user' => $user,
+                'roles' => $roles,
+                'selectedRoles' => $selectedRoles
+            ]);
         } catch (Exception $err) {
             return view('backend.user.index')->with('error', 'Failed to get user');
         }
@@ -65,21 +81,19 @@ class UserController extends Controller
     {
         try {
             $req->validated();
-
             $user = User::where('trash', 0)->findOrFail($id);
-
             $img_name = $user->image;
             if ($req->hasFile('image')) {
                 $img_file = $req->file('image');
                 $img_ext = $img_file->getClientOriginalExtension();
                 $img_name = time() . "." . $img_ext;
-                $img_file->move(public_path('uploads/authors'), $img_name);
+                $img_file->move(public_path('uploads/users'), $img_name);
             }
 
             $data = [
                 'name' => $req->name,
                 'email' => $req->email,
-                'is_active' => $req->has('is_active') ? (int)$req->is_active : 0,
+                'is_active' => $req->has('is_active') ? (int) $req->is_active : 0,
                 'image' => $img_name,
             ];
 
@@ -88,6 +102,10 @@ class UserController extends Controller
             }
 
             $user->update($data);
+
+            if ($req->has('role')) {
+                $user->role()->sync($req->role);
+            }
 
             return redirect()->route('backend.user.index')->with('success', 'User has been updated successfully');
         } catch (Exception $err) {
@@ -140,7 +158,7 @@ class UserController extends Controller
             $user->trash = 0;
             $user->save();
             return redirect()->route('backend.user.viewtrash')->with('success', 'User has been restored successfully');
-        } catch (\Exception $err) {
+        } catch (Exception $err) {
             return redirect()->back()->with('error', 'Failed to restore user. Please try again.');
         }
     }

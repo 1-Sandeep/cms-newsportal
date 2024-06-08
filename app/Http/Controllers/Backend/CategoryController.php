@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\CategoryRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CategoryController extends Controller
 {
@@ -118,19 +119,26 @@ class CategoryController extends Controller
             $category->trash = 0;
             $category->save();
             return redirect()->route('backend.category.viewtrash')->with('success', 'Category has been restored successfully');
-        } catch (\Exception $err) {
+        } catch (Exception $err) {
             return redirect()->back()->with('error', 'Failed to restore category. Please try again.');
         }
     }
 
 
-    public function destroy(string $id)
+   public function destroy(string $id)
     {
         try {
             $category = Category::findOrFail($id);
-            $category->delete();
-            return redirect()->route('backend.category.viewtrash')->with('success', 'Category has been deleted successfully');
-        } catch (\Exception $err) {
+            if ($category->post->count() == 0) {
+                $category->delete();
+                return redirect()->route('backend.category.viewtrash')->with('success', 'Category has been deleted successfully');
+            }
+            if($category->post->count()>0) {
+                return redirect()->route('backend.category.viewtrash')->with('error', 'Category cannot be deleted');
+            }
+        } catch (ModelNotFoundException $e) {
+            return redirect()->back()->with('error', 'Category not found.');
+        } catch (Exception $e) {
             return redirect()->back()->with('error', 'Failed to delete the category. Please try again.');
         }
     }

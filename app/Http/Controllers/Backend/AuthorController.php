@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Backend;
 
+use Carbon\Carbon;
+use App\Models\Author;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Backend\AuthorRequest;
-use App\Models\Author;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AuthorController extends Controller
 {
@@ -45,7 +46,7 @@ class AuthorController extends Controller
                 'name' => $req->name,
                 'description' => $req->description,
                 'image' => $img_name,
-                'is_active' => $req->has('is_active') ? (int)$req->is_active : 0
+                'is_active' => $req->has('is_active') ? (int) $req->is_active : 0
             ]);
             $author->save();
             return redirect()->route('backend.author.index')->with('success', 'Author has been added successfully');
@@ -84,7 +85,7 @@ class AuthorController extends Controller
                 'name' => $validatedData['name'],
                 'description' => $validatedData['description'],
                 'image' => $img_name,
-                'is_active' => $req->has('is_active') ? (int)$validatedData['is_active'] : 0
+                'is_active' => $req->has('is_active') ? (int) $validatedData['is_active'] : 0
             ]);
             return redirect()->route('backend.author.index')->with('success', 'Author has been updated successfully');
         } catch (\Exception $err) {
@@ -135,9 +136,16 @@ class AuthorController extends Controller
     {
         try {
             $author = Author::findOrFail($id);
-            $author->delete();
-            return redirect()->route('backend.author.viewtrash')->with('success', 'Author has been deleted successfully');
-        } catch (\Exception $err) {
+            if ($author->post->count() == 0) {
+                $author->delete();
+                return redirect()->route('backend.author.viewtrash')->with('success', 'Author has been deleted successfully');
+            }
+            if ($author->post->count() > 0) {
+                return redirect()->route('backend.author.viewtrash')->with('error', 'Author cannot be deleted');
+            }
+        } catch (ModelNotFoundException $e) {
+            return redirect()->back()->with('error', 'Author not found.');
+        } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Failed to delete the author. Please try again.');
         }
     }

@@ -119,7 +119,7 @@
                     </ul>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="pages/examples/invoice.html"
+                            <a href="{{ route('backend.role.index') }}"
                                 class="nav-link {{ $second_segment == 'role' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Role</p>

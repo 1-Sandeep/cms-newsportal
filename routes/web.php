@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Backend\RoleController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\TagController;
@@ -103,3 +104,13 @@ Route::middleware(['auth'])->prefix('/cms/user')->group(function () {
 
 
 Route::get('/cms/permission/list', PermissionController::class)->name('backend.permission.index')->middleware('auth');
+
+
+Route::middleware(['auth'])->prefix('/cms/role')->group(function () {
+    Route::get('/list', [RoleController::class, 'index'])->name('backend.role.index');
+    Route::get('/create', [RoleController::class, 'create'])->name('backend.role.create');
+    Route::post('/store', [RoleController::class, 'store'])->name('backend.role.store');
+    Route::get('/edit/{id}', [RoleController::class, 'edit'])->name('backend.role.edit');
+    Route::put('/update/{id}', [RoleController::class, 'update'])->name('backend.role.update');
+    Route::delete('/delete/{id}', [RoleController::class, 'destroy'])->name('backend.role.delete');
+});

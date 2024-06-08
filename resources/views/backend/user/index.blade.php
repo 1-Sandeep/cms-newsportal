@@ -36,7 +36,7 @@
                                             <th style="width:10%; text-align: center;">Image</th>
                                             <th>Name</th>
                                             <th>Email</th>
-                                            <th>Roles</th>
+                                            <th style="text-align: center;">Roles</th>
                                             <th style="width:10%; text-align: center;">Status</th>
                                             <th style="width:10%; text-align: center;">Actions</th>
                                         </tr>
@@ -51,7 +51,7 @@
                                                             alt="{{ $user->name }}"
                                                             style="max-width: 40px; max-height: 40px; border-radius:5px">
                                                     @else
-                                                        <img src="{{ asset('uploads/user/' . $user->image) }}"
+                                                        <img src="{{ asset('uploads/users/' . $user->image) }}"
                                                             alt="{{ $user->name }}"
                                                             style="max-width: 40px; max-height: 40px; border-radius:5px">
                                                     @endif
@@ -61,7 +61,13 @@
 
                                                 <td>{{ $user->email }}</td>
 
-                                                <td>user role here</td>
+                                                <td style="text-align: center;">
+                                                    @foreach ($user->role as $role)
+                                                        <span class="badge badge-primary py-1 mx-2 my-1 h-4">
+                                                            {{ $role->name }}
+                                                        </span>
+                                                    @endforeach
+                                                </td>
 
                                                 <td style="text-align: center;">
                                                     {!! Form::checkbox('is_active', 1, $user->is_active == 1 ? true : false, [

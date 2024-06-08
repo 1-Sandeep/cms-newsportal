@@ -125,6 +125,19 @@
                                 </div>
 
                                 <div class="form-group">
+                                    {!! Form::label('role', 'Select Role') !!}
+                                    {!! Form::select('role[]', $roles->pluck('name', 'id'), $is_edit ? $selectedRoles : null, [
+                                        'class' => 'form-control select-multiple-value select-role' . ($errors->has('role') ? ' is-invalid' : ''),
+                                        'multiple' => 'multiple',
+                                    ]) !!}
+                                    @error('role')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
                                     {!! Form::label('is_active', 'User Status') !!}
                                     {!! Form::checkbox('is_active', 1, $is_active_value, [
                                         'id' => 'is_active',
@@ -172,7 +185,7 @@
 
             );
             // doesnot close dropdown on item select
-            $('.select-author').select2({
+            $('.select-role').select2({
                 closeOnSelect: false
             });
         });
