@@ -63,7 +63,6 @@
                                                 <td>{!! Str::limit(strip_tags($post->description), 65, '...') !!}</span></td>
 
                                                 <td style="text-align: center;">
-                                                    {{-- {{ $post->is_published }} --}}
                                                     {!! Form::checkbox('is_published', 1, $post->is_published == 1 ? true : false, [
                                                         'id' => 'is_published',
                                                         'class' => 'form-check-input is_published' . ($errors->has('is_published') ? ' is-invalid' : ''),

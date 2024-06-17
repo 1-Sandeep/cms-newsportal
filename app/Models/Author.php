@@ -11,7 +11,7 @@ class Author extends Model
 
     public $fillable = ['name', 'description', 'is_active', 'image'];
 
-    public function post()
+    public function posts()
     {
         return $this->belongsToMany(Post::class, 'post_author');
     }

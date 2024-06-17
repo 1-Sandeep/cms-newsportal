@@ -11,17 +11,17 @@ class Post extends Model
 
     public $fillable = ['title', 'description', 'summary', 'image', 'is_published'];
 
-    public function author()
+    public function authors()
     {
         return $this->belongsToMany(Author::class, 'post_author');
     }
 
-    public function category()
+    public function categories()
     {
         return $this->belongsToMany(Category::class, 'post_category');
     }
 
-    public function tag()
+    public function tags()
     {
         return $this->belongsToMany(Tag::class, 'post_tag');
     }

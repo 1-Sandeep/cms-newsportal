@@ -54,7 +54,13 @@
                                                 </td>
                                                 <td>{{ $user->name }}</td>
                                                 <td>{{ $user->email }}</td>
-                                                <td> user role </span></td>
+                                                <td style="text-align: center;">
+                                                    @foreach ($user->roles as $role)
+                                                        <span class="badge badge-primary py-1 mx-2 my-1 h-4">
+                                                            {{ $role->name }}
+                                                        </span>
+                                                    @endforeach
+                                                </td>
                                                 <td style="text-align: center; display: flex; justify-content: space-evenly;"
                                                     class="gap-2">
 

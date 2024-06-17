@@ -53,18 +53,18 @@ class PostController extends Controller
                 'description' => $req->description,
                 'summary' => $req->summary,
                 'image' => $img_name,
-                'is_published' => $req->has('is_published') ? (int)$req->is_published : 0
+                'is_published' => $req->has('is_published') ? (int) $req->is_published : 0
             ]);
             $post->save();
 
             if ($req->has('author')) {
-                $post->author()->sync($req->author);
+                $post->authors()->sync($req->author);
             }
             if ($req->has('category')) {
-                $post->category()->sync($req->category);
+                $post->categories()->sync($req->category);
             }
             if ($req->has('tag')) {
-                $post->tag()->sync($req->tag);
+                $post->tags()->sync($req->tag);
             }
 
             return redirect()->route('backend.post.index')->with('success', 'Post has been added successfully');
@@ -83,9 +83,9 @@ class PostController extends Controller
                 'authors' => Author::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc')->get(),
                 'tags' => Tag::orderBy('created_at', 'desc')->get(),
                 'categories' => Category::where('trash', 0)->where('is_active', 1)->orderBy('created_at', 'desc')->get(),
-                'selectedCategories' => $post->category->pluck('id')->toArray(),
-                'selectedAuthors' => $post->author->pluck('id')->toArray(),
-                'selectedTags' => $post->tag->pluck('id')->toArray(),
+                'selectedCategories' => $post->categories->pluck('id')->toArray(),
+                'selectedAuthors' => $post->authors->pluck('id')->toArray(),
+                'selectedTags' => $post->tags->pluck('id')->toArray(),
             ]);
         } catch (\Exception $err) {
             return redirect()->back()->with('error', 'Post not found');
@@ -110,17 +110,17 @@ class PostController extends Controller
                 'description' => $validatedData['description'],
                 'summary' => $validatedData['summary'],
                 'image' => $img_name,
-                'is_published' => $req->has('is_published') ? (int)$validatedData['is_published'] : 0
+                'is_published' => $req->has('is_published') ? (int) $validatedData['is_published'] : 0
             ]);
 
             if ($req->has('author')) {
-                $post->author()->sync($req->author);
+                $post->authors()->sync($req->author);
             }
             if ($req->has('category')) {
-                $post->category()->sync($req->category);
+                $post->categories()->sync($req->category);
             }
             if ($req->has('tag')) {
-                $post->tag()->sync($req->tag);
+                $post->tags()->sync($req->tag);
             }
 
             return redirect()->route('backend.post.index')->with('success', 'Post has been updated successfully');

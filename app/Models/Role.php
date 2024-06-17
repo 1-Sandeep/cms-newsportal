@@ -12,12 +12,12 @@ class Role extends Model
 
     public $fillable = ["name", "slug", "permission"];
 
-    public function permission()
+    public function permissions()
     {
         return $this->belongsToMany(Permission::class, 'role_permission');
     }
 
-    public function user()
+    public function users()
     {
         return $this->belongsTo(User::class, 'role_user');
     }

@@ -62,7 +62,7 @@
                                                 <td>{{ $user->email }}</td>
 
                                                 <td style="text-align: center;">
-                                                    @foreach ($user->role as $role)
+                                                    @foreach ($user->roles as $role)
                                                         <span class="badge badge-primary py-1 mx-2 my-1 h-4">
                                                             {{ $role->name }}
                                                         </span>
