@@ -39,16 +39,21 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($roles as $role)
+                                            {{-- @dd($role->permissions) --}}
                                             <tr>
                                                 <td>{{ Str::limit($role->name, 20, '...') }}</td>
 
                                                 <td>{!! Str::limit(strip_tags($role->slug), 30, '...') !!}</td>
 
-                                                <td style="">
-                                                    @foreach ($role->permission as $permission)
-                                                        <span
-                                                            class="badge badge-primary py-1 mx-2 my-1 h-4">{{ $permission->name }}</span>
-                                                    @endforeach
+                                                <td>
+                                                    @if (isset($role->permissions) && count($role->permissions) > 0)
+                                                        <div class="badge-container">
+                                                            @foreach ($role->permissions as $permission)
+                                                                <span
+                                                                    class="badge badge-primary py-1 mx-2 my-1 h-4">{{ $permission->name }}</span>
+                                                            @endforeach
+                                                        </div>
+                                                    @endif
                                                 </td>
 
                                                 <td style="text-align: center; display: flex; justify-content: space-evenly;"
@@ -68,7 +73,6 @@
                                                         'data-id' => $role->id,
                                                     ]) !!}
                                                     {!! Form::close() !!}
-
                                                 </td>
                                             </tr>
                                         @endforeach

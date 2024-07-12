@@ -8,7 +8,7 @@
     <a href="{{ route('dashboard') }}" class="brand-link">
         <img src="{{ asset('backend/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">AdminLTE 3</span>
+        <span class="brand-text font-weight-light">SandeepLTE</span>
     </a>
 
     <!-- Sidebar -->
@@ -149,7 +149,7 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="pages/examples/invoice.html"
+                            <a href="{{ route('backend.page.index') }}"
                                 class="nav-link {{ $second_segment == 'pages' ? 'active' : '' }}">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Pages</p>

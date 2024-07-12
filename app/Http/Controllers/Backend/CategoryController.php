@@ -20,7 +20,7 @@ class CategoryController extends Controller
         $categories = Category::where('created_at', '<=', Carbon::now())
             ->where('trash', 0)
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(8);
         return view('backend.category.index', [
             'categories' => $categories
         ]);
@@ -92,7 +92,7 @@ class CategoryController extends Controller
         $categories = Category::where('created_at', '<=', Carbon::now())
             ->where('trash', 1)
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(8);
         return view('backend.category.trash', [
             'categories' => $categories
         ]);
@@ -125,7 +125,7 @@ class CategoryController extends Controller
     }
 
 
-   public function destroy(string $id)
+    public function destroy(string $id)
     {
         try {
             $category = Category::findOrFail($id);
@@ -133,7 +133,7 @@ class CategoryController extends Controller
                 $category->delete();
                 return redirect()->route('backend.category.viewtrash')->with('success', 'Category has been deleted successfully');
             }
-            if($category->post->count()>0) {
+            if ($category->post->count() > 0) {
                 return redirect()->route('backend.category.viewtrash')->with('error', 'Category cannot be deleted');
             }
         } catch (ModelNotFoundException $e) {

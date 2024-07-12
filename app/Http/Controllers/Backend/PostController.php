@@ -20,7 +20,7 @@ class PostController extends Controller
         $posts = Post::where('created_at', '<=', Carbon::now())
             ->where('trash', 0)
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(8);
         return view('backend.post.index', [
             'posts' => $posts,
         ]);
@@ -136,7 +136,7 @@ class PostController extends Controller
             $posts = Post::where('created_at', '<=', Carbon::now())
                 ->where('trash', 1)
                 ->orderBy('created_at', 'desc')
-                ->paginate(10);
+                ->paginate(8);
             return view('backend.post.trash', [
                 'posts' => $posts,
             ]);

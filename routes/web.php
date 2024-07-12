@@ -1,14 +1,15 @@
 <?php
 
-use App\Http\Controllers\Backend\RoleController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Backend\TagController;
+use App\Http\Controllers\Backend\PageController;
 use App\Http\Controllers\Backend\PostController;
+use App\Http\Controllers\Backend\RoleController;
+use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\AuthorController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\PermissionController;
-use App\Http\Controllers\Backend\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -113,4 +114,9 @@ Route::middleware(['auth'])->prefix('/cms/role')->group(function () {
     Route::get('/edit/{id}', [RoleController::class, 'edit'])->name('backend.role.edit');
     Route::put('/update/{id}', [RoleController::class, 'update'])->name('backend.role.update');
     Route::delete('/delete/{id}', [RoleController::class, 'destroy'])->name('backend.role.delete');
+});
+
+
+Route::middleware(['auth'])->prefix('/cms/page')->group(function () {
+    Route::get('/list', [PageController::class, 'index'])->name('backend.page.index');
 });

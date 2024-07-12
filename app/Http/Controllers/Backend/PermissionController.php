@@ -16,7 +16,7 @@ class PermissionController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $permissions = Permission::orderBy('id', 'asc')->paginate(10);
+        $permissions = Permission::orderBy('id', 'asc')->paginate(8);
         return view('backend.permission.index', [
             'permissions' => $permissions,
         ]);

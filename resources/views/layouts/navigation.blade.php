@@ -37,8 +37,7 @@
                   <i class="fas fa-expand-arrows-alt"></i>
               </a>
           </li>
-          <li class="nav-item ">
-
+          <li class="nav-item">
               <a class="nav-link" href="{{ route('logout') }}"
                   onclick="event.preventDefault();
                                document.getElementById('logout-form').submit();">

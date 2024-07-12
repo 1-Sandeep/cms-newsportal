@@ -18,7 +18,7 @@ class AuthorController extends Controller
         $authors = Author::where('created_at', '<=', Carbon::now())
             ->where('trash', 0)
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(8);
         return view('backend.author.index', [
             'authors' => $authors
         ]);
@@ -99,7 +99,7 @@ class AuthorController extends Controller
         $authors = Author::where('created_at', '<=', Carbon::now())
             ->where('trash', 1)
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->paginate(8);
         return view('backend.author.trash', [
             'authors' => $authors
         ]);

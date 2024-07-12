@@ -31,26 +31,22 @@ class PermissionTableSeeder extends Seeder
                 ['name' => 'Category Update', 'slug' => 'category-update'],
                 ['name' => 'Category Delete', 'slug' => 'category-delete'],
 
-                // page
-                // ['name' => 'Page Create', 'slug' => 'page-create'],
-                // ['name' => 'Page Read', 'slug' => 'page-read'],
-                // ['name' => 'Page Update', 'slug' => 'page-update'],
-                // ['name' => 'Page Delete', 'slug' => 'page-delete'],
-
-                // user
                 ['name' => 'User Create', 'slug' => 'user-create'],
                 ['name' => 'User Read', 'slug' => 'user-read'],
                 ['name' => 'User Update', 'slug' => 'user-update'],
                 ['name' => 'User Delete', 'slug' => 'user-delete'],
 
-                // role
                 ['name' => 'Role Create', 'slug' => 'role-create'],
                 ['name' => 'Role Read', 'slug' => 'role-read'],
                 ['name' => 'Role Update', 'slug' => 'role-update'],
                 ['name' => 'Role Delete', 'slug' => 'role-delete'],
 
-                // permission
                 ['name' => 'Permission Read', 'slug' => 'permission-read'],
+
+                ['name' => 'Page Create', 'slug' => 'page-create'],
+                ['name' => 'Page Read', 'slug' => 'page-read'],
+                ['name' => 'Page Update', 'slug' => 'page-update'],
+                ['name' => 'Page Delete', 'slug' => 'page-delete'],
 
                 // seo
                 // ['name' => 'Seo Create and Update', 'slug' => 'seo-create-update'],

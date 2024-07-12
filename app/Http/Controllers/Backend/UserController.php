@@ -15,7 +15,7 @@ class UserController extends Controller
     public function index()
     {
         $logged_in_user = auth()->user()->id;
-        $users = User::where('id', '!=', $logged_in_user)->where('trash', 0)->orderBy('id', 'asc')->paginate(10);
+        $users = User::where('id', '!=', $logged_in_user)->where('trash', 0)->orderBy('id', 'asc')->paginate(8);
         return view('backend.user.index', [
             'users' => $users
         ]);
@@ -50,7 +50,7 @@ class UserController extends Controller
             $user->save();
 
             if ($req->has('role')) {
-                $user->role()->sync($req->role);
+                $user->roles()->sync($req->role);
             }
 
             return redirect()->route('backend.user.index')->with('success', 'New user created successfully');
@@ -65,7 +65,7 @@ class UserController extends Controller
         try {
             $user = User::where('trash', 0)->findOrFail($id);
             $roles = Role::orderBy('created_at', 'desc')->get();
-            $selectedRoles = $user->role->pluck('id')->toArray() ?? [];
+            $selectedRoles = $user->roles->pluck('id')->toArray() ?? [];
             return view('backend.user.partials.form', [
                 'user' => $user,
                 'roles' => $roles,
@@ -103,7 +103,7 @@ class UserController extends Controller
             $user->update($data);
 
             if ($req->has('role')) {
-                $user->role()->sync($req->role);
+                $user->roles()->sync($req->role);
             }
 
             return redirect()->route('backend.user.index')->with('success', 'User has been updated successfully');
@@ -129,7 +129,7 @@ class UserController extends Controller
     {
         try {
             $logged_in_user = auth()->user()->id;
-            $users = User::where('id', '!=', $logged_in_user)->where('trash', 1)->orderBy('id', 'asc')->paginate(10);
+            $users = User::where('id', '!=', $logged_in_user)->where('trash', 1)->orderBy('id', 'asc')->paginate(8);
             return view('backend.user.trash', [
                 'users' => $users
             ]);

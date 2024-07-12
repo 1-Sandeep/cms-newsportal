@@ -15,7 +15,7 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $roles = Role::orderBy('created_at', 'desc')->paginate(10);
+        $roles = Role::orderBy('created_at', 'desc')->paginate(8);
         return view('backend.role.index', [
             'roles' => $roles,
         ]);
@@ -45,11 +45,9 @@ class RoleController extends Controller
             }
 
             return redirect()->route('backend.role.index')->with('success', 'New role has been created successfully');
-
         } catch (Exception $err) {
             return redirect()->back()->with('error', $err->getMessage());
         }
-
     }
 
     public function edit(string $id)
@@ -57,7 +55,7 @@ class RoleController extends Controller
         try {
             $role = Role::findOrFail($id);
             $permissions = Permission::orderby('created_at', 'desc')->get();
-            $selectedPermissions = $role->permission->pluck('id')->toArray();
+            $selectedPermissions = $role->permissions->pluck('id')->toArray();
             return view('backend.role.partials.form', [
                 'role' => $role,
                 'permissions' => $permissions,
@@ -72,6 +70,7 @@ class RoleController extends Controller
 
     public function update(RoleRequest $req, string $id)
     {
+        // dd($req->permission);
         try {
             $req->validated();
             if ($req->slug !== Str::slug($req->slug, '-')) {
@@ -86,14 +85,14 @@ class RoleController extends Controller
             );
 
             if ($req->has('permission')) {
-                $role->permission()->sync($req->permission);
+                $role->permissions()->sync($req->permission);
             }
 
             return redirect()->route('backend.role.index')->with('success', 'Role has been updated successfully');
         } catch (ModelNotFoundException $err) {
             return redirect()->route('backend.role.index')->with('error', 'Role not found');
         } catch (Exception $err) {
-            return redirect()->back()->with('error', 'Failed to update role')->withInput();
+            return redirect()->back()->with('error', 'Failed to update role : ' . $err)->withInput();
         }
     }
 
