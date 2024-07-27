@@ -12,6 +12,7 @@ Welcome to the News Portal Project! This project is a CMS specifically designed 
     -   [Authors](#authors)
     -   [Categories](#categories)
     -   [Tags](#tags)
+    -   [Page](#page)
 -   [Authentication and Authorization](#authentication-and-authorization)
 -   [Interactive UI Elements](#interactive-ui-elements)
 
@@ -24,9 +25,10 @@ Welcome to the News Portal Project! This project is a CMS specifically designed 
 -   Prevent deletion of authors and categories that have assigned posts.
 
 <strong>To be added</strong>
--    User Module, Roles and Permission Module
--    Static page module
--    Dynamic Footer Content
+
+-   User Module, Roles and Permission Module
+-   Static page module
+-   Dynamic Footer Content
 
 ## Technologies Used
 
@@ -86,7 +88,7 @@ After setting up the project, you can access the backend dashboard at `/admin` a
 ### Posts
 
 -   **CRUD Operations**: Create, Read, Update, and Delete posts.
--   **Assign Multiple Authors, Categories, and Tags**: Enhance the versatility of your posts by assigning multiple authors, categories, and tags.
+-   **Assign Multiple Authors, Categories, and Tags to a Post**: Enhance the versatility of your posts by assigning multiple authors, categories, and tags.
 
 ### Authors
 
@@ -100,7 +102,7 @@ After setting up the project, you can access the backend dashboard at `/admin` a
 
 ### Tags
 
--   **CRUD Operations**: Create and manage tags for your posts.
+-   **CRD Operations**: Create, Read and Delete tags for your posts.
 
 ## Authentication and Authorization
 

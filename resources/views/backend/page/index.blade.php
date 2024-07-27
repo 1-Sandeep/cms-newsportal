@@ -13,10 +13,6 @@
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item">
                                 <button class="btn btn-success">Add Page</button>
-                                {{-- <a href="{{ route('backend.page.create') }}" class="btn btn-success mr-2">Add Page</a> --}}
-                                {{-- <a href="{{ route('backend.page.viewtrash') }}" class="btn btn-warning"
-                                    title="Trash authors">
-                                    <i class="fas fa-trash"></i></a> --}}
                             </li>
                         </ol>
                     </div><!-- /.col -->
@@ -32,10 +28,10 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body table-responsive p-0">
-                                {{-- <table class="table table-hover text-nowrap">
+                                <table class="table table-hover text-nowrap">
                                     <thead>
                                         <tr>
-                                            <th style="text-align: center;">Image</th>
+                                            <th style="width:10%;  text-align: center;">Image</th>
                                             <th>Name</th>
                                             <th>Description</th>
                                             <th style="width:10%; text-align: center;">Status</th>
@@ -43,7 +39,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($authors as $author)
+                                        {{-- @foreach ($authors as $author)
                                             <tr>
                                                 <td style="text-align: center;">
                                                     @if (!$author->image)
@@ -94,9 +90,9 @@
 
                                                 </td>
                                             </tr>
-                                        @endforeach
+                                        @endforeach --}}
                                     </tbody>
-                                </table> --}}
+                                </table>
                             </div>
                             <!-- /.card-body -->
                         </div>

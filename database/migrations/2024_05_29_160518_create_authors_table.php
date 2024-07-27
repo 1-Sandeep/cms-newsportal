@@ -15,7 +15,7 @@ class CreateAuthorsTable extends Migration
     {
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->require();
+            $table->string('name')->required();
             $table->longText('description')->nullable();
             $table->boolean('is_active')->default(1);
             $table->string('image')->nullable();

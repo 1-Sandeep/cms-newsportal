@@ -15,9 +15,9 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->string('title')->require();
+            $table->string('title')->required();
             $table->text('summary')->nullable();
-            $table->longText('description')->require();
+            $table->longText('description')->required();
             $table->boolean('is_published')->default(1);
             $table->string('image')->nullable();
             $table->boolean('trash')->default(0);
