@@ -41,7 +41,7 @@ class UserRequest extends FormRequest
         // Add additional rules for PUT method
         if ($this->isMethod('put')) {
             $userId = $this->route('id'); // Assuming the route parameter is 'id'
-            $rules['email'] = ['required', 'email', 'string', 'max:255', 'unique:users,email,' . $userId];
+            // $rules['email'] = ['required', 'email', 'string', 'max:255', 'unique:users,email,' . $userId];
             $rules['password'] = ['nullable', 'min:8', 'confirmed', 'string'];
             $rules['password_confirmation'] = ['nullable', 'same:password', 'string'];
         }

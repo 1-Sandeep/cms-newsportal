@@ -84,10 +84,17 @@
 
                                 <div class="form-group">
                                     {!! Form::label('password', 'Password') !!}<span class="text-danger">*</span>
-                                    {!! Form::password('password', [
-                                        'id' => 'password',
-                                        'class' => 'form-control' . ($errors->has('password') ? ' is-invalid' : ''),
-                                    ]) !!}
+                                    <div class="input-group">
+                                        {!! Form::password('password', [
+                                            'id' => 'password',
+                                            'class' => 'form-control' . ($errors->has('password') ? ' is-invalid' : ''),
+                                        ]) !!}
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                                <i id="togglePasswordIcon" class="fa fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                     @error('password')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -97,16 +104,25 @@
 
                                 <div class="form-group">
                                     {!! Form::label('password_confirmation', 'Confirm Password') !!}<span class="text-danger">*</span>
-                                    {!! Form::password('password_confirmation', [
-                                        'id' => 'password_confirmation',
-                                        'class' => 'form-control' . ($errors->has('password_confirmation') ? ' is-invalid' : ''),
-                                    ]) !!}
+                                    <div class="input-group">
+                                        {!! Form::password('password_confirmation', [
+                                            'id' => 'password_confirmation',
+                                            'class' => 'form-control' . ($errors->has('password_confirmation') ? ' is-invalid' : ''),
+                                        ]) !!}
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="button"
+                                                id="togglePasswordConfirmation">
+                                                <i id="togglePasswordConfirmationIcon" class="fa fa-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                     @error('password_confirmation')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>
                                     @enderror
                                 </div>
+
 
                                 <div class="form-group">
                                     {!! Form::label('image', 'Upload Image') !!}
@@ -179,6 +195,48 @@
 
 @section('script')
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const togglePassword = document.getElementById('togglePassword');
+            const password = document.getElementById('password');
+            const togglePasswordIcon = document.getElementById('togglePasswordIcon');
+
+            const togglePasswordConfirmation = document.getElementById('togglePasswordConfirmation');
+            const passwordConfirmation = document.getElementById('password_confirmation');
+            const togglePasswordConfirmationIcon = document.getElementById('togglePasswordConfirmationIcon');
+
+            togglePassword.addEventListener('click', function(e) {
+                // toggle the type attribute for password
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+
+                // toggle the eye icon
+                if (type === 'password') {
+                    togglePasswordIcon.classList.remove('fa-eye-slash');
+                    togglePasswordIcon.classList.add('fa-eye');
+                } else {
+                    togglePasswordIcon.classList.remove('fa-eye');
+                    togglePasswordIcon.classList.add('fa-eye-slash');
+                }
+            });
+
+            togglePasswordConfirmation.addEventListener('click', function(e) {
+                // Toggle the type attribute for password confirmation
+                const type = passwordConfirmation.getAttribute('type') === 'password' ? 'text' : 'password';
+                passwordConfirmation.setAttribute('type', type);
+
+                // Toggle the eye icon
+                if (type === 'password') {
+                    togglePasswordConfirmationIcon.classList.remove('fa-eye-slash');
+                    togglePasswordConfirmationIcon.classList.add('fa-eye');
+                } else {
+                    togglePasswordConfirmationIcon.classList.remove('fa-eye');
+                    togglePasswordConfirmationIcon.classList.add('fa-eye-slash');
+                }
+            });
+        });
+
+
+
         $(document).ready(function() {
             // initializing select2 for select dropdown
             $('.select-multiple-value').select2(
