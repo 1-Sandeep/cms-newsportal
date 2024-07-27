@@ -50,7 +50,7 @@
                                                             alt="{{ $post->title }}"
                                                             style="max-width: 50px; max-height:50px; border-radius:5px">
                                                     @else
-                                                        <img src="{{ asset('uploads/post/' . $post->image) }}"
+                                                        <img src="{{ asset('uploads/posts/' . $post->image) }}"
                                                             alt="{{ $post->title }}"
                                                             style="max-width: 50px; max-height:50px; border-radius:5px">
                                                     @endif

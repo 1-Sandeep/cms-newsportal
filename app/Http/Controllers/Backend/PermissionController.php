@@ -14,7 +14,8 @@ class PermissionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Request $request)
+    // single action controller, to only display permission
+    public function __invoke()
     {
         $permissions = Permission::orderBy('id', 'asc')->paginate(8);
         return view('backend.permission.index', [

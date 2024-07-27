@@ -50,7 +50,8 @@
                                                             alt="{{ $author->name }}"
                                                             style="max-width: 40px; max-height: 40px; border-radius:5px">
                                                     @else
-                                                        <img src="{{ $author->image }}" alt="{{ $author->name }}"
+                                                        <img src="{{ asset('uploads/authors/' . $author->image) }}"
+                                                            alt="{{ $author->name }}"
                                                             style="max-width: 40px; max-height: 40px; border-radius:5px">
                                                     @endif
                                                 </td>
