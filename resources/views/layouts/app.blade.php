@@ -31,6 +31,20 @@
     <!-- Styles -->
     {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
+
+    {{-- <!-- Google tag (gtag.js) --> --}}
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LV2QJ2N2S6"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-LV2QJ2N2S6');
+    </script>
+
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
