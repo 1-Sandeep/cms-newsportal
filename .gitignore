@@ -14,10 +14,11 @@ yarn-error.log
 /.idea
 /.vscode
 # ignore the content of authors, posts and users directory
-/public/uploads/authors/*
 /public/uploads/posts/*
+/public/uploads/authors/*
 /public/uploads/users/*
-/public/uploads/users/*
+/public/uploads/pages/*
+
 # include the content of default directory
 !/public/uploads/posts/default/
 !/public/uploads/users/default/
