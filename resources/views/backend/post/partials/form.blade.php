@@ -114,7 +114,7 @@
                                     </div>
 
                                     <div class="col-md-6">
-                                        {!! Form::label('tag', 'Tags') !!} <span class="text-danger">*</span>
+                                        {!! Form::label('tag', 'Tags') !!}
                                         {!! Form::select('tag[]', $tags->pluck('title', 'id'), $is_edit ? $selectedTags : null, [
                                             'class' => 'form-control select-multiple-value select-tag' . ($errors->has('tag') ? ' is-invalid' : ''),
                                             'multiple' => 'multiple',

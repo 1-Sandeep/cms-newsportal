@@ -40,14 +40,18 @@ class PostController extends Controller
     public function store(PostRequest $req)
     {
         try {
+
             $req->validated();
+
             $img_name = null;
+
             if ($req->has('image')) {
                 $img_file = $req->file('image');
                 $img_ext = $img_file->getClientOriginalExtension();
                 $img_name = time() . "." . $img_ext;
-                $img_file->move(public_path('uploads/posts'));
+                $img_file->move(public_path('uploads/posts'), $img_name);
             }
+
             $post = new Post([
                 'title' => $req->title,
                 'description' => $req->description,
@@ -99,6 +103,7 @@ class PostController extends Controller
             $validatedData = $req->validated();
             $post = Post::where('trash', 0)->findOrFail($id);
             $img_name = $post->image;
+
             if ($req->hasFile('image')) {
                 $img_file = $req->file('image');
                 $img_ext = $img_file->getClientOriginalExtension();

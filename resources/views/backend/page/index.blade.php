@@ -31,33 +31,24 @@
                                 <table class="table table-hover text-nowrap">
                                     <thead>
                                         <tr>
-                                            <th style="width:10%;  text-align: center;">Image</th>
-                                            <th>Name</th>
+                                            <th>Title</th>
+                                            <th>Slug</th>
                                             <th>Description</th>
                                             <th style="width:10%; text-align: center;">Status</th>
                                             <th style="width:10%; text-align: center;">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{-- @foreach ($authors as $author)
+                                        @foreach ($pages as $page)
                                             <tr>
-                                                <td style="text-align: center;">
-                                                    @if (!$author->image)
-                                                        <img src="{{ asset('uploads/default/defaultuser.png') }}"
-                                                            alt="{{ $author->name }}"
-                                                            style="max-width: 40px; max-height: 40px; border-radius:5px">
-                                                    @else
-                                                        <img src="{{ $author->image }}" alt="{{ $author->name }}"
-                                                            style="max-width: 40px; max-height: 40px; border-radius:5px">
-                                                    @endif
-                                                </td>
+                                                <td>{{ $page->title }}</td>
 
-                                                <td>{{ $author->name }}</td>
+                                                <td>{{ $page->slug }}</td>
 
-                                                <td>{!! Str::limit(strip_tags($author->description), 65, '...') !!}</span></td>
+                                                <td>{!! Str::limit(strip_tags($page->description), 80, '...') !!}</span></td>
 
                                                 <td style="text-align: center;">
-                                                    {!! Form::checkbox('is_active', 1, $author->is_active == 1 ? true : false, [
+                                                    {!! Form::checkbox('is_active', 1, $page->is_active == 1 ? true : false, [
                                                         'id' => 'is_active',
                                                         'class' => 'form-check-input is_active' . ($errors->has('is_active') ? ' is-invalid' : ''),
                                                         'data-toggle' => 'toggle',
@@ -66,31 +57,31 @@
                                                         'data-onstyle' => 'success',
                                                         'data-offstyle' => 'danger',
                                                         'data-size' => 'mini',
-                                                        'data-id' => $author->id,
+                                                        'data-id' => $page->id,
                                                     ]) !!}
                                                 </td>
 
                                                 <td style="text-align: center; display: flex; justify-content: space-evenly;"
                                                     class="gap-2">
-                                                    <a href="{{ route('backend.author.edit', $author->id) }}"
-                                                        class="btn btn-warning" title="Edit author">
+                                                    <a href="{{ route('backend.page.edit', $page->id) }}"
+                                                        class="btn btn-warning" title="Edit page">
                                                         <i class="fas fa-edit"></i>
                                                     </a>
                                                     {!! Form::open([
-                                                        'route' => ['backend.author.movetotrash', $author->id],
+                                                        'route' => ['backend.page.movetotrash', $page->id],
                                                         'method' => 'PUT',
                                                     ]) !!}
                                                     {!! Form::button('<i class="fas fa-trash"></i>', [
                                                         'type' => 'submit',
                                                         'class' => 'btn btn-danger movetotrash',
                                                         'title' => 'Move to trash',
-                                                        'data-id' => $author->id,
+                                                        'data-id' => $page->id,
                                                     ]) !!}
                                                     {!! Form::close() !!}
 
                                                 </td>
                                             </tr>
-                                        @endforeach --}}
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -101,10 +92,14 @@
                 </div>
                 <!-- /.row -->
                 {{-- pagination --}}
-                {{-- @include('layouts.pagination', ['data' => $pages]) --}}
+                @include('layouts.pagination', ['data' => $pages])
             </div>
             <!-- /.container-fluid -->
         </section>
         <!-- /.content -->
     </div>
+@endsection
+
+
+@section('script')
 @endsection

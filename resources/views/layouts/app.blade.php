@@ -45,6 +45,7 @@
 
         @auth
             @include('layouts.navigation')
+
             @include('layouts.sidebar')
         @endauth
 
@@ -54,67 +55,62 @@
             @include('layouts.footer')
         @endauth
 
-    </div>
-
-
-
-    <!-- jQuery -->
-    <script src="{{ asset('backend/plugins/jquery/jquery.min.js') }}"></script>
-    <!-- jQuery UI 1.11.4 -->
-    <script src="{{ asset('backend/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
-    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
-    <script>
-        $.widget.bridge('uibutton', $.ui.button)
-    </script>
-    <!-- Bootstrap 4 -->
-    <script src="{{ asset('backend/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <!-- Sparkline -->
-    <script src="{{ asset('backend/plugins/sparklines/sparkline.js') }}"></script>
-    <!-- AdminLTE App -->
-    <script src="{{ asset('backend/dist/js/adminlte.js') }}"></script>
-    <!-- Bootstrap Toggle -->
-    <script src="{{ asset('backend/dist/js/bootstrap-toggle.min.js') }}"></script>
-    <!-- SweetAlert -->
-    <script src="{{ asset('backend/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
-    <!-- Select2 -->
-    <script src="{{ asset('backend/plugins/select2/js/select2.min.js') }}"></script>
-
-    <!-- Tiny MCE -->
-    <script src="https://cdn.tiny.cloud/1/2j5hx44mnplsxletoqoajrmiit0gyisjx212tnwkdi0f0zdv/tinymce/7/tinymce.min.js"
-        referrerpolicy="origin"></script>
-    <script>
-        tinymce.init({
-            selector: 'textarea.tinyMCE', // Replace this CSS selector to match the placeholder element for TinyMCE
-            plugins: 'code table lists',
-            toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table'
-        });
-    </script>
-    <!-- Scripts -->
-    {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
-
-    @if (session('success'))
+        <!-- jQuery -->
+        <script src="{{ asset('backend/plugins/jquery/jquery.min.js') }}"></script>
+        <!-- jQuery UI 1.11.4 -->
+        <script src="{{ asset('backend/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
+        <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
         <script>
-            $(document).ready(function() {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: '{{ session('success') }}'
+            $.widget.bridge('uibutton', $.ui.button)
+        </script>
+        <!-- Bootstrap 4 -->
+        <script src="{{ asset('backend/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+        <!-- Sparkline -->
+        <script src="{{ asset('backend/plugins/sparklines/sparkline.js') }}"></script>
+        <!-- AdminLTE App -->
+        <script src="{{ asset('backend/dist/js/adminlte.js') }}"></script>
+        <!-- Bootstrap Toggle -->
+        <script src="{{ asset('backend/dist/js/bootstrap-toggle.min.js') }}"></script>
+        <!-- SweetAlert -->
+        <script src="{{ asset('backend/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+        <!-- Select2 -->
+        <script src="{{ asset('backend/plugins/select2/js/select2.min.js') }}"></script>
+
+        <!-- Tiny MCE -->
+        <script src="https://cdn.tiny.cloud/1/2j5hx44mnplsxletoqoajrmiit0gyisjx212tnwkdi0f0zdv/tinymce/7/tinymce.min.js"
+            referrerpolicy="origin"></script>
+        <script>
+            tinymce.init({
+                selector: 'textarea.tinyMCE', // Replace this CSS selector to match the placeholder element for TinyMCE
+                plugins: 'code table lists',
+                toolbar: 'undo redo | blocks | bold italic | alignleft aligncenter alignright | indent outdent | bullist numlist | code | table'
+            });
+        </script>
+        <!-- Scripts -->
+        {{-- <script src="{{ asset('js/app.js') }}" defer></script> --}}
+
+        @if (session('success'))
+            <script>
+                $(document).ready(function() {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: '{{ session('success') }}'
+                    });
                 });
-            });
-        </script>
-    @endif
-    @if (session('error'))
-        <script>
-            Swal.fire({
-                icon: 'error',
-                title: 'Error',
-                text: '{{ session('error') }}'
-            });
-        </script>
-    @endif
+            </script>
+        @endif
+        @if (session('error'))
+            <script>
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: '{{ session('error') }}'
+                });
+            </script>
+        @endif
 
-
-    @yield('script')
+        @yield('script')
 </body>
 
 </html>

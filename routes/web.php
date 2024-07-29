@@ -119,4 +119,8 @@ Route::middleware(['auth'])->prefix('/cms/role')->group(function () {
 
 Route::middleware(['auth'])->prefix('/cms/page')->group(function () {
     Route::get('/list', [PageController::class, 'index'])->name('backend.page.index');
+    Route::get('/create', [PageController::class, 'create'])->name('backend.page.create');
+    Route::get('/edit/{id}', [PageController::class, 'edit'])->name('backend.page.edit');
+    Route::delete('/delete/{id}', [PageController::class, 'destroy'])->name('backend.page.delete');
+    Route::put('/movetotrash/{id}', [PageController::class, 'movetotrash'])->name('backend.page.movetotrash');
 });
