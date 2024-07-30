@@ -210,7 +210,20 @@
                 closeOnSelect: false
             });
             $('.select-tag').select2({
-                closeOnSelect: false
+                tags: true,
+                tokenSeparators: [',', ' '],
+                closeOnSelect: false,
+                createTag: function(params) {
+                    var term = $.trim(params.term);
+                    if (term === '') {
+                        return null;
+                    }
+                    return {
+                        id: term,
+                        text: term,
+                        newTag: true // add additional parameters
+                    };
+                }
             });
         });
     </script>

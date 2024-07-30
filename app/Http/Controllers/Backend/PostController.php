@@ -68,7 +68,16 @@ class PostController extends Controller
                 $post->categories()->sync($req->category);
             }
             if ($req->has('tag')) {
-                $post->tags()->sync($req->tag);
+                $tags = [];
+                foreach ($req->tag as $tagInput) {
+                    if (is_numeric($tagInput)) {
+                        $tags[] = $tagInput;
+                    } else {
+                        $tag = Tag::firstOrCreate(['title' => $tagInput]);
+                        $tags[] = $tag->id;
+                    }
+                }
+                $post->tags()->sync($tags);
             }
 
             return redirect()->route('backend.post.index')->with('success', 'Post has been added successfully');
