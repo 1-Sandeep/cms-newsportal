@@ -28,7 +28,7 @@ class AuthorTableSeeder extends Seeder
                 ],
                 [
                     'name' => 'Sandeep Poudel',
-                    'description' => 'Sandeep Poudel is a chief writer in SP Blog',
+                    'description' => '',
                     'is_active' => 1,
                     'image' => null,
                     'trash' => 0,

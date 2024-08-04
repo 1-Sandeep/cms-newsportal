@@ -12,7 +12,10 @@
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item">
-                                <button class="btn btn-success">Add Page</button>
+                                <button type="button" class="btn btn-success" data-toggle="modal"
+                                    data-target="#page-form-modal-lg">
+                                    Add Page
+                                </button>
                             </li>
                         </ol>
                     </div><!-- /.col -->
@@ -98,6 +101,93 @@
         </section>
         <!-- /.content -->
     </div>
+
+    <div class="modal fade" id="page-form-modal-lg">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Add New Page</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {!! Form::open([
+                        'route' => 'backend.page.store',
+                        'method' => 'POST',
+                        'enctype' => 'multipart/form-data',
+                    ]) !!}
+
+                    <div class="form-group">
+                        {!! Form::label('title', 'Title') !!}<span class="text-danger">*</span>
+                        {!! Form::text('title', '', [
+                            'id' => 'title',
+                            'class' => 'form-control' . ($errors->has('title') ? ' is-invalid' : ''),
+                        ]) !!}
+                        @error('title')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        {!! Form::label('slug', 'Slug') !!}<span class="text-danger">*</span>
+                        {!! Form::text('slug', '', [
+                            'id' => 'slug',
+                            'class' => 'form-control' . ($errors->has('slug') ? ' is-invalid' : ''),
+                        ]) !!}
+                        @error('slug')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        {!! Form::label('description', 'Description') !!}<span class="text-danger">*</span>
+                        {!! Form::textarea('description', '', [
+                            'id' => 'description',
+                            'class' => 'form-control tinyMCE' . ($errors->has('description') ? ' is-invalid' : ''),
+                        ]) !!}
+                        @error('description')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+
+                    <div class="form-group">
+                        {!! Form::label('status', 'Page Status') !!}
+                        {!! Form::checkbox('status', 1, true, [
+                            'id' => 'status',
+                            'class' => 'form-check-input' . ($errors->has('status') ? ' is-invalid' : ''),
+                            'data-toggle' => 'toggle',
+                            'data-on' => ' ',
+                            'data-off' => ' ',
+                            'data-onstyle' => 'success',
+                            'data-offstyle' => 'danger',
+                            'data-size' => 'mini',
+                        ]) !!}
+                        @error('status')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                </div>
+                <div class="modal-footer justify-content-end">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 @endsection
 
 

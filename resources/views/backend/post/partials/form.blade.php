@@ -53,7 +53,6 @@
                                     'route' => $is_edit ? ['backend.post.update', $post->id] : ['backend.post.store'],
                                     'method' => $is_edit ? 'PUT' : 'POST',
                                     'enctype' => 'multipart/form-data',
-                                    'files' => true,
                                 ]) !!}
 
                                 <div class="form-group">
