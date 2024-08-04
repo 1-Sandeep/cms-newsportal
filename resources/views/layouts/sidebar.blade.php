@@ -159,7 +159,7 @@
                 </li>
 
 
-                {{-- <li class="nav-item">
+                <li class="nav-item">
                     <a href="#" class="nav-link {{ $second_segment == 'seo' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-book"></i>
                         <p>
@@ -176,12 +176,35 @@
                             </a>
                         </li>
                     </ul>
-                </li> --}}
+                </li>
+
+
 
 
                 <li class="nav-item">
+                    <a href="#" class="nav-link {{ $second_segment == 'advertisement' ? 'active' : '' }}">
+                        <i class="nav-icon fas fa-ad"></i>
+                        <ion-icon name="images-outline"></ion-icon>
+                        <p>
+                            Advertisement
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="pages/examples/invoice.html"
+                                class="nav-link {{ $second_segment == 'advertisement' ? 'active' : '' }}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Advertisement</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li class="nav-item">
                     <a href="#" class="nav-link {{ $second_segment == 'media' ? 'active' : '' }}">
-                        <i class="nav-icon fas fa-book"></i>
+                        <i class="nav-icon fas fa-photo-video"></i>
+                        <ion-icon name="images-outline"></ion-icon>
                         <p>
                             Media
                             <i class="fas fa-angle-left right"></i>

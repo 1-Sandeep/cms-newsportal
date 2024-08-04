@@ -100,96 +100,170 @@
             <!-- /.container-fluid -->
         </section>
         <!-- /.content -->
-    </div>
 
-    <div class="modal fade" id="page-form-modal-lg">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Add New Page</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
+
+        <div class="modal fade" id="page-form-modal-lg">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add New Page</h4>
+                        <button type="button" class="close closeModalBtn" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {!! Form::open([
+                            'route' => 'backend.page.store',
+                            'method' => 'POST',
+                            'enctype' => 'multipart/form-data',
+                            'id' => 'pageForm',
+                        ]) !!}
+
+                        <div class="form-group">
+                            {!! Form::label('title', 'Title') !!}<span class="text-danger">*</span>
+                            {!! Form::text('title', null, [
+                                'id' => 'title',
+                                'class' => 'form-control' . ($errors->has('title') ? ' is-invalid' : ''),
+                            ]) !!}
+                            @error('title')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            {!! Form::label('slug', 'Slug') !!}<span class="text-danger">*</span>
+                            {!! Form::text('slug', null, [
+                                'id' => 'slug',
+                                'class' => 'form-control' . ($errors->has('slug') ? ' is-invalid' : ''),
+                            ]) !!}
+                            @error('slug')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            {!! Form::label('description', 'Description') !!}<span class="text-danger">*</span>
+                            {!! Form::textarea('description', null, [
+                                'id' => 'description',
+                                'class' => 'form-control tinyMCE' . ($errors->has('description') ? ' is-invalid' : ''),
+                            ]) !!}
+                            @error('description')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+
+                        <div class="form-group">
+                            {!! Form::label('status', 'Page Status') !!}
+                            {!! Form::checkbox('status', 1, true, [
+                                'id' => 'status',
+                                'class' => 'form-check-input' . ($errors->has('status') ? ' is-invalid' : ''),
+                                'data-toggle' => 'toggle',
+                                'data-on' => ' ',
+                                'data-off' => ' ',
+                                'data-onstyle' => 'success',
+                                'data-offstyle' => 'danger',
+                                'data-size' => 'mini',
+                            ]) !!}
+                            @error('status')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+
+                        {!! Form::close() !!}
+
+                    </div>
+                    <div class="modal-footer justify-content-end">
+                        <button type="button" class="btn btn-danger closeModalBtn" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="saveModalData">Save changes</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    {!! Form::open([
-                        'route' => 'backend.page.store',
-                        'method' => 'POST',
-                        'enctype' => 'multipart/form-data',
-                    ]) !!}
-
-                    <div class="form-group">
-                        {!! Form::label('title', 'Title') !!}<span class="text-danger">*</span>
-                        {!! Form::text('title', '', [
-                            'id' => 'title',
-                            'class' => 'form-control' . ($errors->has('title') ? ' is-invalid' : ''),
-                        ]) !!}
-                        @error('title')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                        {!! Form::label('slug', 'Slug') !!}<span class="text-danger">*</span>
-                        {!! Form::text('slug', '', [
-                            'id' => 'slug',
-                            'class' => 'form-control' . ($errors->has('slug') ? ' is-invalid' : ''),
-                        ]) !!}
-                        @error('slug')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-
-                    <div class="form-group">
-                        {!! Form::label('description', 'Description') !!}<span class="text-danger">*</span>
-                        {!! Form::textarea('description', '', [
-                            'id' => 'description',
-                            'class' => 'form-control tinyMCE' . ($errors->has('description') ? ' is-invalid' : ''),
-                        ]) !!}
-                        @error('description')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-
-
-                    <div class="form-group">
-                        {!! Form::label('status', 'Page Status') !!}
-                        {!! Form::checkbox('status', 1, true, [
-                            'id' => 'status',
-                            'class' => 'form-check-input' . ($errors->has('status') ? ' is-invalid' : ''),
-                            'data-toggle' => 'toggle',
-                            'data-on' => ' ',
-                            'data-off' => ' ',
-                            'data-onstyle' => 'success',
-                            'data-offstyle' => 'danger',
-                            'data-size' => 'mini',
-                        ]) !!}
-                        @error('status')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-
-                </div>
-                <div class="modal-footer justify-content-end">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+                <!-- /.modal-content -->
             </div>
-            <!-- /.modal-content -->
+            <!-- /.modal-dialog -->
         </div>
-        <!-- /.modal-dialog -->
+        <!-- /.modal -->
     </div>
-    <!-- /.modal -->
 @endsection
 
-
 @section('script')
+    <script>
+        $(document).ready(function() {
+            $('#page-form-modal-lg').on('hidden.bs.modal', function() {
+                $('#pageForm')[0].reset();
+
+                // Remove validation error messages
+                $('.invalid-feedback').remove();
+                $('#pageForm').find('.is-invalid').removeClass('is-invalid');
+
+                // Reset TinyMCE content if necessary
+                if (typeof tinymce !== 'undefined') {
+                    tinymce.get('description').setContent('');
+                }
+            });
+
+
+            $('#title').on('input', function() {
+                var title = $(this).val().toLowerCase();
+                var slug = title.replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+                $('#slug').val(slug);
+            });
+
+            $('#saveModalData').on('click', function() {
+                // Ensure TinyMCE content is saved to the textarea
+                if (typeof tinymce !== 'undefined') {
+                    tinymce.triggerSave();
+                }
+
+                // Collect form data
+                var formData = new FormData($('#pageForm')[0]);
+
+                $.ajax({
+                    url: '{{ route('backend.page.store') }}',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        // Handle success response
+                        $('#page-form-modal-lg').modal('hide');
+                        // Optionally reset the form
+                        $('#pageForm')[0].reset();
+                        if (typeof tinymce !== 'undefined') {
+                            tinymce.get('description').setContent('');
+                        }
+                        // Optionally show a success message
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.message,
+                        });
+                    },
+                    error: function(xhr) {
+                        var errors = xhr.responseJSON.errors;
+                        // Clear previous error messages
+                        $('.invalid-feedback').remove();
+                        // Display error messages
+                        $.each(errors, function(key, value) {
+                            console.log(key,
+                                value); // Log each key and value to see what you get
+                            var input = $('#pageForm').find('[name="' + key + '"]');
+                            input.addClass('is-invalid');
+                            input.after(
+                                '<span class="invalid-feedback" role="alert"><strong>' +
+                                value[0] + '</strong></span>');
+                        });
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

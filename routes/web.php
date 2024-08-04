@@ -245,10 +245,7 @@ Route::middleware(["auth"])
         Route::get("/list", [PageController::class, "index"])->name(
             "backend.page.index"
         );
-        Route::get("/create", [PageController::class, "create"])->name(
-            "backend.page.create"
-        );
-        Route::get("/store", [PageController::class, "store"])->name(
+        Route::post("/store", [PageController::class, "store"])->name(
             "backend.page.store"
         );
         Route::get("/edit/{id}", [PageController::class, "edit"])->name(

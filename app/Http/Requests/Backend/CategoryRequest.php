@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Backend;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class CategoryRequest extends FormRequest
@@ -28,15 +29,18 @@ class CategoryRequest extends FormRequest
             'is_active' => ['boolean']
         ];
 
-
-        // Add unique rule conditionally if slug is provided
-        if ($this->isMethod('post') && $this->has('slug')) {
+        // Check if the request is for updating a category
+        if ($this->isMethod('put') || $this->isMethod('patch')) {
+            $categoryId = $this->route('category'); // Get the category ID from the route
+            $rules['slug'] = [
+                'required',
+                'string',
+                Rule::unique('categories', 'slug')->ignore($categoryId) // Exclude the current category slug from uniqueness check
+            ];
+        } else if ($this->isMethod('post') && $this->has('slug')) {
+            // Create request
             $rules['slug'] = ['required', 'string', 'unique:categories,slug'];
         }
-        if ($this->isMethod('put') && $this->has('slug')) {
-            $rules['slug'] = ['required', 'string'];
-        }
-
         return $rules;
     }
 }

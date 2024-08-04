@@ -15,11 +15,12 @@ class RoleController extends Controller
 {
     public function index()
     {
-        $roles = Role::orderBy('created_at', 'desc')->paginate(8);
+        $roles = Role::with('permissions')->paginate(8);
         return view('backend.role.index', [
             'roles' => $roles,
         ]);
     }
+
 
     public function create()
     {
@@ -30,6 +31,8 @@ class RoleController extends Controller
 
     public function store(RoleRequest $req)
     {
+        // dd($req->all()); // Check all incoming request data
+
         try {
             $req->validated();
             if ($req->slug !== Str::slug($req->slug, '-')) {
@@ -41,7 +44,7 @@ class RoleController extends Controller
             ]);
 
             if ($req->has('permission')) {
-                $role->permission()->sync($req->permission);
+                $role->permissions()->sync($req->permission);
             }
 
             return redirect()->route('backend.role.index')->with('success', 'New role has been created successfully');
@@ -70,19 +73,18 @@ class RoleController extends Controller
 
     public function update(RoleRequest $req, string $id)
     {
-        // dd($req->permission);
+        // dd($req->all()); // Check all incoming request data
+
         try {
             $req->validated();
             if ($req->slug !== Str::slug($req->slug, '-')) {
                 return redirect()->route('backend.role.create')->with('error', 'The slug is not valid')->withInput();
             }
             $role = Role::findOrFail($id);
-            $role->update(
-                [
-                    'name' => $req->name,
-                    'slug' => $req->slug
-                ]
-            );
+            $role->update([
+                'name' => $req->name,
+                'slug' => $req->slug,
+            ]);
 
             if ($req->has('permission')) {
                 $role->permissions()->sync($req->permission);
@@ -92,7 +94,7 @@ class RoleController extends Controller
         } catch (ModelNotFoundException $err) {
             return redirect()->route('backend.role.index')->with('error', 'Role not found');
         } catch (Exception $err) {
-            return redirect()->back()->with('error', 'Failed to update role : ' . $err)->withInput();
+            return redirect()->back()->with('error', 'Failed to update role: ' . $err->getMessage())->withInput();
         }
     }
 

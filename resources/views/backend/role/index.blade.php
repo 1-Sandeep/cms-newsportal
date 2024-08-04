@@ -39,14 +39,13 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($roles as $role)
-                                            {{-- @dd($role->permissions) --}}
                                             <tr>
                                                 <td>{{ Str::limit($role->name, 20, '...') }}</td>
 
                                                 <td>{!! Str::limit(strip_tags($role->slug), 30, '...') !!}</td>
 
                                                 <td>
-                                                    @if (isset($role->permissions) && count($role->permissions) > 0)
+                                                    @if ($role->permissions->isNotEmpty())
                                                         <div class="badge-container">
                                                             @foreach ($role->permissions as $permission)
                                                                 <span

@@ -82,7 +82,7 @@
                                     {!! Form::label('permission', 'Permissions') !!} <span class="text-danger">*</span>
                                     {!! Form::select('permission[]', $permissions->pluck('name', 'id'), $is_edit ? $selectedPermissions : null, [
                                         'class' =>
-                                            'form-control select-multiple-value select-permission' . ($errors->has('permission') ? ' is-invalid' : ''),
+                                            'form-control select-multiple-value select-permission' . ($errors->has('permissions') ? ' is-invalid' : ''),
                                         'multiple' => 'multiple',
                                     ]) !!}
                                     @error('permission')
