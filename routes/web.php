@@ -11,7 +11,6 @@ use App\Http\Controllers\Backend\UserController;
 use App\Http\Controllers\Backend\AuthorController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\PermissionController;
-use App\Http\Controllers\Frontend\HomeController as FrontendHomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -254,8 +253,7 @@ Route::middleware(["auth"])
         Route::delete("/delete/{id}", [PageController::class, "destroy"])->name(
             "backend.page.delete"
         );
-        Route::put("/movetotrash/{id}", [
-            PageController::class,
-            "movetotrash",
-        ])->name("backend.page.movetotrash");
+        Route::put("/updatestatus/{id}", [PageController::class, "updatestatus"])->name(
+            'backend.page.updateStatus'
+        );
     });

@@ -35,16 +35,22 @@
                                             <th style="text-align: center;">Image</th>
                                             <th>Name</th>
                                             <th>Description</th>
-                                            <th style="text-align: center;">Actions</th>
+                                            <th style="text-align: center; width:10%;">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($authors as $author)
                                             <tr>
-                                                {{-- <td>{{ $author->id }}</td> --}}
-                                                <td style="text-align: center;"><img src="{{ $author->image }}"
-                                                        alt=""
-                                                        style="max-width: 50px; max-height:50px; border-radius:5px">
+                                                <td style="text-align: center;">
+                                                    @if (!$author->image)
+                                                        <img src="{{ asset('uploads/default/defaultuser.png') }}"
+                                                            alt="{{ $author->name }}"
+                                                            style="max-width: 40px; max-height: 40px; border-radius:5px">
+                                                    @else
+                                                        <img src="{{ asset('uploads/authors/' . $author->image) }}"
+                                                            alt="{{ $author->name }}"
+                                                            style="max-width: 40px; max-height: 40px; border-radius:5px">
+                                                    @endif
                                                 </td>
                                                 <td>{{ $author->name }}</td>
                                                 <td>{!! Str::limit(strip_tags($author->description), 110, '...') !!}</span></td>

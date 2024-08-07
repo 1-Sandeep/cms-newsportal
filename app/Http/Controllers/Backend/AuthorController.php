@@ -136,19 +136,28 @@ class AuthorController extends Controller
     {
         try {
             $author = Author::findOrFail($id);
-            if ($author->post->count() == 0) {
+
+            // Ensure the posts relationship is set and then check the count
+            if (isset($author->posts) && $author->posts->count() > 0) {
+                // Prevent deletion if the author has posts
+                return redirect()->route('backend.author.viewtrash')->with('error', 'Author cannot be deleted as they have associated posts.');
+            } else {
+                // Allow deletion if the author has no posts
                 $author->delete();
-                return redirect()->route('backend.author.viewtrash')->with('success', 'Author has been deleted successfully');
-            }
-            if ($author->post->count() > 0) {
-                return redirect()->route('backend.author.viewtrash')->with('error', 'Author cannot be deleted');
+                return redirect()->route('backend.author.viewtrash')->with('success', 'Author has been deleted successfully.');
             }
         } catch (ModelNotFoundException $e) {
+            // Handle the case where the author is not found
             return redirect()->back()->with('error', 'Author not found.');
         } catch (\Exception $e) {
+            // Handle other exceptions
             return redirect()->back()->with('error', 'Failed to delete the author. Please try again.');
         }
     }
+
+
+
+
 
 
     public function updatestatus(Request $req, string $id)

@@ -67,7 +67,12 @@
                                                             {{ $role->name }}
                                                         </span>
                                                     @endforeach
+                                                    {{-- Debugging: output the roles --}}
+                                                    @php
+                                                        // dd($user->roles);
+                                                    @endphp
                                                 </td>
+
 
                                                 <td style="text-align: center;">
                                                     {!! Form::checkbox('is_active', 1, $user->is_active == 1 ? true : false, [

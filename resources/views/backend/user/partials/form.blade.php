@@ -142,9 +142,8 @@
 
                                 <div class="form-group">
                                     {!! Form::label('role', 'Select Role') !!}
-                                    {!! Form::select('role[]', $roles->pluck('name', 'id'), $is_edit ? $selectedRoles : null, [
-                                        'class' => 'form-control select-multiple-value select-role' . ($errors->has('role') ? ' is-invalid' : ''),
-                                        'multiple' => 'multiple',
+                                    {!! Form::select('role', $roles->pluck('name', 'id'), $is_edit ? $selectedRole : null, [
+                                        'class' => 'form-control select-single-role' . ($errors->has('role') ? ' is-invalid' : ''),
                                     ]) !!}
                                     @error('role')
                                         <span class="invalid-feedback" role="alert">

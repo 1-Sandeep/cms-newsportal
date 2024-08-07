@@ -41,50 +41,8 @@
                                             <th style="width:10%; text-align: center;">Actions</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        @foreach ($pages as $page)
-                                            <tr>
-                                                <td>{{ $page->title }}</td>
-
-                                                <td>{{ $page->slug }}</td>
-
-                                                <td>{!! Str::limit(strip_tags($page->description), 80, '...') !!}</span></td>
-
-                                                <td style="text-align: center;">
-                                                    {!! Form::checkbox('is_active', 1, $page->is_active == 1 ? true : false, [
-                                                        'id' => 'is_active',
-                                                        'class' => 'form-check-input is_active' . ($errors->has('is_active') ? ' is-invalid' : ''),
-                                                        'data-toggle' => 'toggle',
-                                                        'data-on' => ' ',
-                                                        'data-off' => ' ',
-                                                        'data-onstyle' => 'success',
-                                                        'data-offstyle' => 'danger',
-                                                        'data-size' => 'mini',
-                                                        'data-id' => $page->id,
-                                                    ]) !!}
-                                                </td>
-
-                                                <td style="text-align: center; display: flex; justify-content: space-evenly;"
-                                                    class="gap-2">
-                                                    <a href="{{ route('backend.page.edit', $page->id) }}"
-                                                        class="btn btn-warning" title="Edit page">
-                                                        <i class="fas fa-edit"></i>
-                                                    </a>
-                                                    {!! Form::open([
-                                                        'route' => ['backend.page.movetotrash', $page->id],
-                                                        'method' => 'PUT',
-                                                    ]) !!}
-                                                    {!! Form::button('<i class="fas fa-trash"></i>', [
-                                                        'type' => 'submit',
-                                                        'class' => 'btn btn-danger movetotrash',
-                                                        'title' => 'Move to trash',
-                                                        'data-id' => $page->id,
-                                                    ]) !!}
-                                                    {!! Form::close() !!}
-
-                                                </td>
-                                            </tr>
-                                        @endforeach
+                                    <tbody id="pagesTableBody">
+                                        @include('backend.page.partials.pages_table', ['pages' => $pages])
                                     </tbody>
                                 </table>
                             </div>
@@ -94,8 +52,8 @@
                     </div>
                 </div>
                 <!-- /.row -->
-                {{-- pagination --}}
-                @include('layouts.pagination', ['data' => $pages])
+                {{-- pagination here --}}
+
             </div>
             <!-- /.container-fluid -->
         </section>
@@ -197,33 +155,148 @@
 @section('script')
     <script>
         $(document).ready(function() {
+            // CSRF Token for Laravel
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            // Remove all invalid messages, classes, and clear form fields once the modal is closed
             $('#page-form-modal-lg').on('hidden.bs.modal', function() {
                 $('#pageForm')[0].reset();
-
-                // Remove validation error messages
                 $('.invalid-feedback').remove();
                 $('#pageForm').find('.is-invalid').removeClass('is-invalid');
 
-                // Reset TinyMCE content if necessary
                 if (typeof tinymce !== 'undefined') {
                     tinymce.get('description').setContent('');
                 }
             });
 
-
+            // Generate slug from title
             $('#title').on('input', function() {
                 var title = $(this).val().toLowerCase();
                 var slug = title.replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
                 $('#slug').val(slug);
             });
 
+            // Function to generate table row HTML
+            function generateTableRow(page) {
+
+                let truncatedTitle = page.title.length > 20 ? page.title
+                    .substring(0,
+                        20) +
+                    '...' : page.title;
+                let truncatedSlug = page.slug.length > 20 ? page.slug.substring(0,
+                        20) +
+                    '...' : page.slug;
+                let parsedDescription = $('<div/>').html(page.page_description).text();
+
+                // displaying parsed description if not null also check for the character count, else set to an empty string
+                let truncatedParsedDescription = parsedDescription !== null ?
+                    (parsedDescription.length > 30 ? parsedDescription.substring(0,
+                            30) +
+                        '...' : parsedDescription) : '';
+                return `
+                <tr>
+                    <td>${truncatedTitle}</td>
+                    <td>${truncatedSlug}</td>
+                    <td>${truncatedParsedDescription}</td>
+                    <td style="text-align: center;">
+                        <input type="checkbox" class="form-check-input pageStatus" data-toggle="toggle"
+                            data-on=" " data-off=" " data-onstyle="success" data-offstyle="danger"
+                            data-size="mini" data-id="${page.id}" ${page.status ? 'checked' : ''}>
+                    </td>
+                    <td style="text-align: center; display: flex; justify-content: space-evenly;">
+                        <button class="btn btn-warning editPage" data-id="${page.id}" title="Edit page">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button class="btn btn-danger deletePage" data-id="${page.id}" title="Delete page">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            `;
+            }
+
+            // Toggle page status
+            $(document).on('change', '.pageStatus', function() {
+                let pageId = $(this).attr('data-id');
+                let status = $(this).prop('checked') ? 1 : 0;
+                $.ajax({
+                    type: 'PUT',
+                    url: `{{ route('backend.page.updateStatus', ':id') }}`.replace(':id',
+                        pageId),
+                    data: {
+                        status: status,
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: response.message,
+                        });
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: xhr.responseJSON.message ||
+                                'Failed to update status.',
+                        });
+                    },
+                });
+            });
+
+            // Delete page
+            $(document).on('click', '.deletePage', function() {
+                let pageId = $(this).attr('data-id');
+                // Confirm deletion
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: 'This action cannot be undone.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'DELETE',
+                            url: `{{ route('backend.page.delete', ':id') }}`.replace(':id',
+                                pageId),
+                            success: function(response) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Success',
+                                    text: response.message,
+                                }).then(() => {
+                                    // Optionally remove the page row from the table
+                                    $(`button.deletePage[data-id="${pageId}"]`)
+                                        .closest('tr').remove();
+                                });
+                            },
+                            error: function(xhr) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Error',
+                                    text: xhr.responseJSON.message ||
+                                        'Failed to delete the page.',
+                                });
+                            },
+                        });
+                    }
+                });
+            });
+
             $('#saveModalData').on('click', function() {
-                // Ensure TinyMCE content is saved to the textarea
+                // Saving content of TinyMCE to textarea
                 if (typeof tinymce !== 'undefined') {
                     tinymce.triggerSave();
                 }
 
-                // Collect form data
+                // Collecting form field data
                 var formData = new FormData($('#pageForm')[0]);
 
                 $.ajax({
@@ -233,37 +306,38 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        // Handle success response
                         $('#page-form-modal-lg').modal('hide');
-                        // Optionally reset the form
                         $('#pageForm')[0].reset();
                         if (typeof tinymce !== 'undefined') {
                             tinymce.get('description').setContent('');
                         }
-                        // Optionally show a success message
                         Swal.fire({
                             icon: 'success',
                             title: 'Success',
                             text: response.message,
                         });
+
+                        // Append the new row to the table
+                        generateTableRow(response.page);
+
+                        // Optionally reinitialize any plugins like Bootstrap Toggle
+                        $('input[data-toggle="toggle"]').bootstrapToggle();
                     },
                     error: function(xhr) {
                         var errors = xhr.responseJSON.errors;
-                        // Clear previous error messages
                         $('.invalid-feedback').remove();
-                        // Display error messages
                         $.each(errors, function(key, value) {
-                            console.log(key,
-                                value); // Log each key and value to see what you get
                             var input = $('#pageForm').find('[name="' + key + '"]');
                             input.addClass('is-invalid');
                             input.after(
                                 '<span class="invalid-feedback" role="alert"><strong>' +
-                                value[0] + '</strong></span>');
+                                value[0] + '</strong></span>'
+                            );
                         });
                     }
                 });
             });
+
         });
     </script>
 @endsection

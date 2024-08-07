@@ -65,11 +65,12 @@ class UserController extends Controller
         try {
             $user = User::where('trash', 0)->findOrFail($id);
             $roles = Role::orderBy('created_at', 'desc')->get();
-            $selectedRoles = $user->roles->pluck('id')->toArray() ?? [];
+            $selectedRole = $user->roles->first()->id ?? null;
+
             return view('backend.user.partials.form', [
                 'user' => $user,
                 'roles' => $roles,
-                'selectedRoles' => $selectedRoles
+                'selectedRole' => $selectedRole
             ]);
         } catch (Exception $err) {
             return view('backend.user.index')->with('error', 'Failed to get user');
@@ -105,6 +106,7 @@ class UserController extends Controller
             if ($req->has('role')) {
                 $user->roles()->sync($req->role);
             }
+
 
             return redirect()->route('backend.user.index')->with('success', 'User has been updated successfully');
         } catch (Exception $err) {

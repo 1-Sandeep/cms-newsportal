@@ -41,7 +41,7 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
-                <li class="nav-item menu-open">
+                <li class="nav-item {{ $second_segment == 'dashboard' ? 'menu-open' : '' }}">
                     <a href="{{ route('dashboard') }}"
                         class="nav-link {{ $second_segment == 'dashboard' ? 'active' : '' }}">
                         <i class="nav-icon fas fa-tachometer-alt"></i>

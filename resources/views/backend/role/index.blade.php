@@ -46,14 +46,16 @@
 
                                                 <td>
                                                     @if ($role->permissions->isNotEmpty())
-                                                        <div class="badge-container">
+                                                        <div class="d-flex flex-wrap">
                                                             @foreach ($role->permissions as $permission)
                                                                 <span
-                                                                    class="badge badge-primary py-1 mx-2 my-1 h-4">{{ $permission->name }}</span>
+                                                                    class="badge badge-primary py-2 m-1">{{ $permission->name }}</span>
                                                             @endforeach
                                                         </div>
                                                     @endif
                                                 </td>
+
+
 
                                                 <td style="text-align: center; display: flex; justify-content: space-evenly;"
                                                     class="gap-2">

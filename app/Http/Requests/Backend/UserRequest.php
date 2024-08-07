@@ -28,7 +28,7 @@ class UserRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'status' => ['boolean'],
             'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg'],
-            'role' => ['nullable', 'array'],
+            'role' => ['nullable', 'string'],
         ];
 
         // Add additional rules for POST method
